@@ -8,8 +8,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    private final static String ICON_NAME = "Icon.png";
-    private final static String MAIN_FXML_NAME = "SceneOCR.fxml";
+    private final static String ICON_NAME = "img/Icon.png";
+    private final static String MAIN_FXML_NAME = "RentaCarros.fxml";
     private final static String STYLE_SHEET_NAME = "styles.css";
     private final static String WINDOW_NAME = "SendJavi";
 

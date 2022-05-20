@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Controller.ControllerRentaCarros">
    <children>
       <Label layoutX="363.0" layoutY="14.0" prefHeight="50.0" prefWidth="129.0" text="Renta Carros">
          <font>
@@ -122,42 +121,42 @@
                         </TableView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="101.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@calendario.jpeg" />
+                              <Image url="@img/calendario.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="136.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@asiento.jpg" />
+                              <Image url="@img/asiento.jpg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="79.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@carro.jpeg" />
+                              <Image url="@img/carro.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="120.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Billetes.jpeg" />
+                              <Image url="@img/Billetes.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="365.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Billetes.jpeg" />
+                              <Image url="@img/Billetes.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="272.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Reporte.jpeg" />
+                              <Image url="@img/Reporte.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="218.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Renta.jpeg" />
+                              <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="679.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@Renta.jpeg" />
+                              <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
                      </children>
