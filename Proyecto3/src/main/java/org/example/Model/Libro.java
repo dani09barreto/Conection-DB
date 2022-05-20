@@ -22,11 +22,6 @@ public class Libro {
         this.isbn = isbn;
     }
 
-
-
-
-
-
     public String getTitle() {
         return title;
     }
