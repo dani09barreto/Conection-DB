@@ -6,8 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.example.Model.Renta;
 
 public class ControllerRentaCarros {
+
+    private Renta rentaActual = new Renta();
 
     @FXML
     private Button Button_AgregarBillete;

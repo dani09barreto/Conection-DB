@@ -12,8 +12,9 @@ import java.util.List;
 public class PantallaLibreria {
 
     public static void main(String[] args){
+/*
         FacadeOCR rl = new FacadeOCR();
-        List<Libro> libros = rl.ConsultarLibros();
+        List<Libro> libros = rl .ConsultarLibros();
         for (Libro lib : libros) {
             System.out.println("libro:" + lib.toString());
         }
@@ -21,6 +22,7 @@ public class PantallaLibreria {
         for (Libro lib : libros) {
             System.out.println("libro:" + lib.toString());
         }
-    }
+        */
 
+    }
 }
