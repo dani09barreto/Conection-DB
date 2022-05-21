@@ -27,34 +27,34 @@
                   <AnchorPane layoutX="23.0" layoutY="26.0" prefHeight="611.0" prefWidth="770.0" style="-fx-background-color: white;">
                      <children>
                         <Separator layoutX="354.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="4.0" />
-                        <Label layoutX="19.0" layoutY="28.0" text="Fecha Renta:">
+                        <Label layoutX="21.0" layoutY="70.0" text="Fecha Renta:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fecha" layoutX="176.0" layoutY="28.0" text="2021-04-15">
+                        <Label fx:id="fecha" layoutX="178.0" layoutY="70.0" text="2021-04-15">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="17.0" layoutY="69.0" text="Seleccione carro por">
+                        <Label layoutX="19.0" layoutY="111.0" text="Seleccione carro por">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="17.0" layoutY="86.0" text="número de puestos:">
+                        <Label layoutX="19.0" layoutY="128.0" text="número de puestos:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="carroXPuestos" layoutX="174.0" layoutY="74.0" prefHeight="26.0" prefWidth="164.0" style="-fx-background-color: #ffe5f0;" />
-                        <Label layoutX="19.0" layoutY="132.0" text="Cantidad:">
+                        <ChoiceBox fx:id="carroXPuestos" layoutX="176.0" layoutY="116.0" prefHeight="26.0" prefWidth="164.0" style="-fx-background-color: #ffe5f0;" />
+                        <Label layoutX="21.0" layoutY="174.0" text="Cantidad:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Button_AgregarLinea" layoutX="129.0" layoutY="196.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
-                        <TextField fx:id="cantidadCarro" layoutX="175.0" layoutY="130.0" prefHeight="26.0" prefWidth="56.0" promptText="5" />
+                        <Button fx:id="Button_AgregarLinea" layoutX="131.0" layoutY="238.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
+                        <TextField fx:id="cantidadCarro" layoutX="177.0" layoutY="172.0" prefHeight="26.0" prefWidth="56.0" promptText="5" />
                         <Label layoutX="369.0" layoutY="28.0" text="Líneas de la Renta:">
                            <font>
                               <Font size="15.0" />
@@ -119,17 +119,17 @@
                               <TableColumn prefWidth="118.40001220703124" style="-fx-background-color: #ffe5f0;" text="Sub Total" />
                           </columns>
                         </TableView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="101.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="103.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/calendario.jpeg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="136.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="138.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/asiento.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="79.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="81.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/carro.jpeg" />
                            </image>
@@ -159,6 +159,7 @@
                               <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
+                        <Button fx:id="Button_NuevaRenta" layoutX="133.0" layoutY="26.0" mnemonicParsing="false" onAction="#nuevaRenta" style="-fx-background-color: #ffcbdb;" text="Nueva Renta" />
                      </children>
                   </AnchorPane>
                </children>
