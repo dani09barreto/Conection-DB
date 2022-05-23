@@ -5,15 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import org.example.Controller.FacadeOCR;
-import org.example.Model.Carro;
-import org.example.Model.Linea;
-import org.example.Model.Renta;
-import org.example.Model.TablaLinea;
+import org.example.Model.*;
 import org.example.Utils.AlertUtils;
-import org.example.Utils.Exeptions.CarroNoExiste;
-import org.example.Utils.Exeptions.CarroSinExistencias;
+import org.example.Utils.Exeptions.ErrorAgregarLinea;
+import org.example.Utils.Exeptions.ErrorPago;
 
-import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +18,6 @@ import java.util.ResourceBundle;
 public class ControllerRentaCarros implements Initializable {
 
     private final FacadeOCR facadeOCR = new FacadeOCR();
-    private Renta rentaActual = new Renta();
 
     @FXML
     private Button Button_AgregarBillete;
@@ -70,19 +65,19 @@ public class ControllerRentaCarros implements Initializable {
     private Label vueltas;
 
     @FXML
-    private TableView<TablaLinea> tablaLinea;
+    private TableView<Linea> tablaLinea;
 
     @FXML
-    private TableColumn<TablaLinea, Integer> columCantidad;
+    private TableColumn<Linea, Integer> columCantidad;
 
     @FXML
-    private TableColumn<TablaLinea, String> columPlaca;
+    private TableColumn<Linea, String> columPlaca;
 
     @FXML
-    private TableColumn<TablaLinea, Integer> columPrecio;
+    private TableColumn<Linea, Integer> columPrecio;
 
     @FXML
-    private TableColumn<TablaLinea, Integer> columSubTotal;
+    private TableColumn<Linea, Integer> columSubTotal;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,16 +91,22 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void agregarLinea(ActionEvent event) {
-        Linea linea = new Linea();
-        linea.setCarroRentado(new Carro("NNI615",  2, 45, 6));
-        linea.setCantidad(5);
-        linea.setNumero(1);
-
+        DTOResumen resumen;
+        Linea linea = new Linea(
+                5,
+                facadeOCR.getCarroContro().existeCarro("ZJK064"),
+                this.facadeOCR.getRentaActual()
+        );
+        System.out.println("a");
         try{
-            facadeOCR.agregarLinea(linea);
-        }catch (CarroNoExiste ex){
+            resumen = facadeOCR.agregarLinea(linea);
+            if (resumen.getMensajeError() !=  null)
+                throw new ErrorAgregarLinea(resumen.getMensajeError());
+            System.out.println(resumen.getTotalRenta());
+        }catch (ErrorAgregarLinea ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
-        } catch (CarroSinExistencias ex){
+        }
+        catch (ErrorPago ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }
     }
@@ -127,7 +128,7 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void nuevaRenta(ActionEvent event) {
-        this.rentaActual = new Renta();
+        this.facadeOCR.setRentaActual(new Renta());
         setFecha();
     }
 
