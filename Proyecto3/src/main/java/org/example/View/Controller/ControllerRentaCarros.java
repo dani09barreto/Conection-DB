@@ -3,14 +3,17 @@ package org.example.View.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.example.Controller.FacadeOCR;
+import org.example.Model.Carro;
+import org.example.Model.Linea;
 import org.example.Model.Renta;
+import org.example.Model.TablaLinea;
+import org.example.Utils.AlertUtils;
+import org.example.Utils.Exeptions.CarroNoExiste;
+import org.example.Utils.Exeptions.CarroSinExistencias;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,8 +21,8 @@ import java.util.ResourceBundle;
 
 public class ControllerRentaCarros implements Initializable {
 
-    private FacadeOCR facadeOCR = new FacadeOCR();
-    private Renta rentaActual;
+    private final FacadeOCR facadeOCR = new FacadeOCR();
+    private Renta rentaActual = new Renta();
 
     @FXML
     private Button Button_AgregarBillete;
@@ -66,6 +69,21 @@ public class ControllerRentaCarros implements Initializable {
     @FXML
     private Label vueltas;
 
+    @FXML
+    private TableView<TablaLinea> tablaLinea;
+
+    @FXML
+    private TableColumn<TablaLinea, Integer> columCantidad;
+
+    @FXML
+    private TableColumn<TablaLinea, String> columPlaca;
+
+    @FXML
+    private TableColumn<TablaLinea, Integer> columPrecio;
+
+    @FXML
+    private TableColumn<TablaLinea, Integer> columSubTotal;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFecha();
@@ -78,7 +96,18 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void agregarLinea(ActionEvent event) {
+        Linea linea = new Linea();
+        linea.setCarroRentado(new Carro("NNI615",  2, 45, 6));
+        linea.setCantidad(5);
+        linea.setNumero(1);
 
+        try{
+            facadeOCR.agregarLinea(linea);
+        }catch (CarroNoExiste ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        } catch (CarroSinExistencias ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
     }
 
     @FXML
