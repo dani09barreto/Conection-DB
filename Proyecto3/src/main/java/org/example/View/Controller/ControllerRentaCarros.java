@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.example.Controller.FacadeOCR;
 import org.example.Model.Renta;
 
 import java.net.URL;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class ControllerRentaCarros implements Initializable {
 
-    private Renta rentaActual = new Renta();
+    private FacadeOCR facadeOCR = new FacadeOCR();
 
     @FXML
     private Button Button_AgregarBillete;

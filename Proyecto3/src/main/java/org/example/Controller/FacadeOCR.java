@@ -1,12 +1,10 @@
 package org.example.Controller;
 
 import org.example.Integration.RepositorioCarro;
-import org.example.Integration.RepositorioLibro;
 import org.example.Integration.RepositorioRenta;
 import org.example.Model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FacadeOCR {
     private RepositorioCarro carroContro = new RepositorioCarro();
@@ -54,4 +52,12 @@ public class FacadeOCR {
         RepositorioLibro repo = new RepositorioLibro();
         return repo.ConsultarLibros();
     }*/
+
+    public RepositorioCarro getCarroContro() {
+        return carroContro;
+    }
+
+    public RepositorioRenta getRentaContro() {
+        return rentaContro;
+    }
 }
