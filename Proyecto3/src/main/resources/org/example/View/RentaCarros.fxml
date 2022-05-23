@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
    <children>
       <Label layoutX="363.0" layoutY="14.0" prefHeight="50.0" prefWidth="129.0" text="Renta Carros">
          <font>
@@ -47,14 +48,13 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="carroXPuestos" layoutX="176.0" layoutY="116.0" prefHeight="26.0" prefWidth="164.0" style="-fx-background-color: #ffe5f0;" />
-                        <Label layoutX="21.0" layoutY="174.0" text="Cantidad:">
+                        <Label layoutX="23.0" layoutY="201.0" text="Cantidad:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Button_AgregarLinea" layoutX="131.0" layoutY="238.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
-                        <TextField fx:id="cantidadCarro" layoutX="177.0" layoutY="172.0" prefHeight="26.0" prefWidth="56.0" promptText="5" />
+                        <Button fx:id="Button_AgregarLinea" layoutX="130.0" layoutY="268.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
+                        <TextField fx:id="cantidadCarro" layoutX="179.0" layoutY="199.0" prefHeight="26.0" prefWidth="56.0" promptText="5" />
                         <Label layoutX="369.0" layoutY="28.0" text="Líneas de la Renta:">
                            <font>
                               <Font size="15.0" />
@@ -129,7 +129,7 @@
                               <Image url="@img/asiento.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="81.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="83.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/carro.jpeg" />
                            </image>
@@ -160,6 +160,17 @@
                            </image>
                         </ImageView>
                         <Button fx:id="Button_NuevaRenta" layoutX="133.0" layoutY="26.0" mnemonicParsing="false" onAction="#nuevaRenta" style="-fx-background-color: #ffcbdb;" text="Nueva Renta" />
+                        <ComboBox fx:id="carroXPuestos" layoutX="176.0" layoutY="117.0" onAction="#mostrarPuestosXPlaca" prefHeight="25.0" prefWidth="162.0" style="-fx-background-color: #ffe5f0;" />
+                        <Label layoutX="193.0" layoutY="155.0" text="Puestos:">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="puestosLabel" layoutX="261.0" layoutY="155.0" prefHeight="19.0" prefWidth="46.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>

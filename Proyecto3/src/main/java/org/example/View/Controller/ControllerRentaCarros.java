@@ -2,13 +2,20 @@ package org.example.View.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.example.Model.Renta;
 
-public class ControllerRentaCarros {
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.ResourceBundle;
+
+public class ControllerRentaCarros implements Initializable {
 
     private Renta rentaActual = new Renta();
 
@@ -37,13 +44,16 @@ public class ControllerRentaCarros {
     private TextField cantidadCarro;
 
     @FXML
-    private ChoiceBox<?> carroXPuestos;
+    private ComboBox<?> carroXPuestos;
 
     @FXML
     private ChoiceBox<?> denominaciones;
 
     @FXML
     private Label fecha;
+
+    @FXML
+    private Label puestosLabel;
 
     @FXML
     private Label saldoBilletes;
@@ -53,6 +63,11 @@ public class ControllerRentaCarros {
 
     @FXML
     private Label vueltas;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 
     @FXML
     void agregarBillete(ActionEvent event) {
@@ -75,6 +90,11 @@ public class ControllerRentaCarros {
     }
 
     @FXML
+    void mostrarPuestosXPlaca(ActionEvent event) {
+
+    }
+
+    @FXML
     void nuevaRenta(ActionEvent event) {
 
     }
@@ -83,5 +103,4 @@ public class ControllerRentaCarros {
     void terminarRenta(ActionEvent event) {
 
     }
-
 }
