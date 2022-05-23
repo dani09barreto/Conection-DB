@@ -71,8 +71,7 @@ public class RepositorioLibro {
         return libros;
     }
 
-    private void buildBook(final ResultSet rs, List<Libro> libros)
-            throws SQLException {
+    private void buildBook(final ResultSet rs, List<Libro> libros) throws SQLException {
         Libro libro = new Libro();
         libro.setId(rs.getBigDecimal("ID"));
         libro.setIsbn(rs.getString("ISBN"));

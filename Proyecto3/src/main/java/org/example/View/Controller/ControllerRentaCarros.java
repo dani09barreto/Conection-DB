@@ -25,6 +25,9 @@ public class ControllerRentaCarros {
     private Button Button_GenerarReporte;
 
     @FXML
+    private Button Button_NuevaRenta;
+
+    @FXML
     private Button Button_TerminarRenta;
 
     @FXML
@@ -68,6 +71,11 @@ public class ControllerRentaCarros {
 
     @FXML
     void generarReporte(ActionEvent event) {
+
+    }
+
+    @FXML
+    void nuevaRenta(ActionEvent event) {
 
     }
 
