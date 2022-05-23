@@ -33,7 +33,7 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fecha" layoutX="178.0" layoutY="70.0" text="2021-04-15">
+                        <Label fx:id="fecha" layoutX="178.0" layoutY="70.0" text="----------">
                            <font>
                               <Font size="13.0" />
                            </font>

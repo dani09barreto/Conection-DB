@@ -18,6 +18,7 @@ public class FacadeOCR {
         return null;
     }
     public DTOResumen agregarLinea (Linea dtoLinea){
+
         return null;
     }
     public DTOResumen eliminarLinea (Linea dtoLinea){

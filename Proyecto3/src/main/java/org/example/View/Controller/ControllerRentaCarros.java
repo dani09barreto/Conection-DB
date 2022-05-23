@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 public class ControllerRentaCarros implements Initializable {
 
     private FacadeOCR facadeOCR = new FacadeOCR();
+    private Renta rentaActual;
 
     @FXML
     private Button Button_AgregarBillete;
@@ -67,7 +68,7 @@ public class ControllerRentaCarros implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setFecha();
     }
 
     @FXML
@@ -97,11 +98,17 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void nuevaRenta(ActionEvent event) {
-
+        this.rentaActual = new Renta();
+        setFecha();
     }
 
     @FXML
     void terminarRenta(ActionEvent event) {
 
+    }
+    public void setFecha (){
+        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar fechaActual = Calendar.getInstance();
+        this.fecha.setText(Fecha.format(fechaActual.getTime()));
     }
 }
