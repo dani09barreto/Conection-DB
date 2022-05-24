@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -60,13 +61,13 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Button_EliminarLinea" layoutX="369.0" layoutY="327.0" mnemonicParsing="false" onAction="#eliminarLinea" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #ffcbdb;" text="Eliminar Linea" />
-                        <Label layoutX="607.0" layoutY="330.0" text="Total Renta:">
+                        <Button fx:id="Button_EliminarLinea" layoutX="374.0" layoutY="327.0" mnemonicParsing="false" onAction="#eliminarLinea" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #ffcbdb;" text="Eliminar Linea" />
+                        <Label layoutX="575.0" layoutY="330.0" text="Total Renta:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalRenta" layoutX="727.0" layoutY="330.0" text="9600">
+                        <Label fx:id="totalRenta" alignment="CENTER" layoutX="704.0" layoutY="330.0" prefHeight="19.0" prefWidth="58.0" text="9600">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -111,14 +112,6 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="367.0" layoutY="56.0" prefHeight="258.0" prefWidth="395.0">
-                          <columns>
-                            <TableColumn prefWidth="90.4000244140625" style="-fx-background-color: #ffe5f0;" text="Placas Carro" />
-                            <TableColumn prefWidth="79.199951171875" style="-fx-background-color: #ffe5f0;" text="Cantidad" />
-                              <TableColumn prefWidth="105.599853515625" style="-fx-background-color: #ffe5f0;" text="Precio" />
-                              <TableColumn prefWidth="118.40001220703124" style="-fx-background-color: #ffe5f0;" text="Sub Total" />
-                          </columns>
-                        </TableView>
                         <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="103.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/calendario.jpeg" />
@@ -154,7 +147,7 @@
                               <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="679.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="647.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/Renta.jpeg" />
                            </image>
@@ -167,6 +160,43 @@
                            </font>
                         </Label>
                         <Label fx:id="puestosLabel" layoutX="261.0" layoutY="155.0" prefHeight="19.0" prefWidth="46.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <ScrollPane layoutX="372.0" layoutY="74.0" prefHeight="241.0" prefWidth="386.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="231.0" prefWidth="379.0">
+                                 <children>
+                                    <TableView fx:id="tablaLinea" prefHeight="258.0" prefWidth="395.0">
+                                       <columns>
+                                          <TableColumn fx:id="columPlaca" editable="false" prefWidth="90.4000244140625" style="-fx-background-color: #ffe5f0;" text="Placas Carro">
+                                             <cellValueFactory>
+                                                <javafx.scene.control.cell.PropertyValueFactory property="PlacaCarroRentado" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="columCantidad" editable="false" prefWidth="96.0" style="-fx-background-color: #ffe5f0;" text="Cantidad">
+                                             <cellValueFactory>
+                                                <javafx.scene.control.cell.PropertyValueFactory property="Cantidad" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="columPrecio" editable="false" prefWidth="98.0" style="-fx-background-color: #ffe5f0;" text="Precio">
+                                             <cellValueFactory>
+                                                <javafx.scene.control.cell.PropertyValueFactory property="PrecioCarro" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn fx:id="columSubTotal" editable="false" prefWidth="111.0" style="-fx-background-color: #ffe5f0;" text="SubTotal">
+                                             <cellValueFactory>
+                                                <javafx.scene.control.cell.PropertyValueFactory property="SubTotal" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <Label fx:id="totalRenta1" layoutX="691.0" layoutY="330.0" text="\$">
                            <font>
                               <Font size="13.0" />
                            </font>
