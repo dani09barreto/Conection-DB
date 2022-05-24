@@ -6,10 +6,11 @@ import org.example.Model.*;
 import org.example.Utils.Exeptions.ErrorPago;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FacadeOCR {
     private Integer numeroLinea = 0;
-    private Integer IDRenta = 0;
+    private Integer IDRenta = 1;
     private Renta rentaActual;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
@@ -45,7 +46,7 @@ public class FacadeOCR {
     public DTOResumen agregarLinea (Linea dtoLinea) throws ErrorPago {
         this.numeroLinea ++;
         dtoLinea.setNumero(numeroLinea);
-        dtoLinea.getMiRenta().setID(IDRenta + 1);
+        this.rentaActual.setNumero(IDRenta);
         DTOResumen resumen;
         Linea lineaTemp;
         if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
@@ -64,15 +65,14 @@ public class FacadeOCR {
             carroContro.updateLinea(cantidad, lineaTemp.getID());
             System.out.println("Actualizada");
             for (Linea ln : this.rentaActual.getLineas()){
-                if (ln.equals(lineaTemp)){
+                if (ln.getNumero()  == lineaTemp.getNumero()){
                     ln.setCantidad(cantidad);
                 }
             }
             resumen = respuestaRenta(this.rentaActual);
-            System.out.println("a");
             return resumen;
         }
-        carroContro.insertarLinea(dtoLinea);
+        carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
         System.out.println("Insertada");
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);

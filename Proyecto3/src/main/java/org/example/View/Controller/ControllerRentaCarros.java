@@ -94,15 +94,16 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         Linea linea = new Linea(
                 5,
-                facadeOCR.getCarroContro().existeCarro("ZJK064"),
-                this.facadeOCR.getRentaActual()
+                facadeOCR.getCarroContro().existeCarro("ZJK064")
         );
         System.out.println("a");
         try{
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
-            System.out.println(resumen.getTotalRenta());
+            System.out.println(resumen.getLineas().toString());
+            renderTable(resumen);
+
         }catch (ErrorAgregarLinea ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }
@@ -140,5 +141,12 @@ public class ControllerRentaCarros implements Initializable {
         SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy");
         Calendar fechaActual = Calendar.getInstance();
         this.fecha.setText(Fecha.format(fechaActual.getTime()));
+    }
+    public void clearTable (){
+        tablaLinea.getItems().clear();
+    }
+    public void renderTable (DTOResumen resumen){
+        clearTable();
+        tablaLinea.getItems().addAll(resumen.getLineas());
     }
 }
