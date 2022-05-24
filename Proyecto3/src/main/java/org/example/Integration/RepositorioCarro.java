@@ -9,25 +9,6 @@ import java.util.ArrayList;
 
 public class RepositorioCarro {
 
-    public ArrayList <Carro> consultarCarros (){
-        ArrayList <Carro> carros = new ArrayList<>();
-        String SQL = "select *\n" +
-                "from carro";
-        try (
-                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
-                PreparedStatement ps = conex.prepareStatement(SQL);
-                ResultSet rs = ps.executeQuery();) {
-            while (rs.next()) {
-                carros.add(crearCarro(rs));
-            }
-
-        } catch (SQLException ex) {
-            System.out.println("Error de conexion:" + ex.toString());
-            ex.printStackTrace();
-        }
-        return carros;
-    }
-
     public Carro existeCarro (String placa){
         StringBuilder SQL =
                 new StringBuilder("select c.ID, c.PLACA, c.PRECIO, c.UNIDADESDISPONIBLES, c.PUESTOS\n" +

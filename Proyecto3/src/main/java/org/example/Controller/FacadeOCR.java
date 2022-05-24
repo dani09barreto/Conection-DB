@@ -42,7 +42,6 @@ public class FacadeOCR {
         return null;
     }
 
-
     public DTOResumen agregarLinea (Linea dtoLinea) throws ErrorPago {
         Double descuento;
         this.numeroLinea ++;

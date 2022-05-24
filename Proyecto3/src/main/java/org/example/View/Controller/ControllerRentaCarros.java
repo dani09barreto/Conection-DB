@@ -12,14 +12,12 @@ import org.example.Utils.Exeptions.ErrorPago;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class ControllerRentaCarros implements Initializable {
 
     private final FacadeOCR facadeOCR = new FacadeOCR();
-    private ArrayList <Carro> carros = new ArrayList<>();
 
     @FXML
     private Button Button_AgregarBillete;
@@ -94,10 +92,9 @@ public class ControllerRentaCarros implements Initializable {
     void agregarLinea(ActionEvent event) {
         DTOResumen resumen;
         Linea linea = new Linea(
-                5,
+                Integer.parseInt(cantidadCarro.getText()),
                 facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
         );
-        System.out.println("a");
         try{
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
@@ -142,10 +139,6 @@ public class ControllerRentaCarros implements Initializable {
          * */
         this.facadeOCR.setRentaActual(new Renta());
         setFecha();
-        carros = facadeOCR.getCarroContro().consultarCarros();
-        for (Carro c : carros){
-            carroXPuestos.getItems().add(c.getPlaca());
-        }
     }
 
     @FXML
