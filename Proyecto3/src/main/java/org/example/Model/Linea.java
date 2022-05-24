@@ -17,7 +17,8 @@ public class Linea {
         this.subTotal = cantidad*carroRentado.getPrecio();
     }
 
-    public Linea(Integer numero, Integer cantidad) {
+    public Linea(Integer ID, Integer numero, Integer cantidad) {
+        this.ID = ID;
         this.numero = numero;
         this.cantidad = cantidad;
     }
@@ -63,6 +64,10 @@ public class Linea {
 
     public Integer getSubTotal() {
         return subTotal;
+    }
+
+    public void setSubTotal(Integer subTotal) {
+        this.subTotal = subTotal;
     }
 
     @Override

@@ -12,12 +12,14 @@ import org.example.Utils.Exeptions.ErrorPago;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class ControllerRentaCarros implements Initializable {
 
     private final FacadeOCR facadeOCR = new FacadeOCR();
+    private ArrayList <Carro> carros = new ArrayList<>();
 
     @FXML
     private Button Button_AgregarBillete;
@@ -44,10 +46,10 @@ public class ControllerRentaCarros implements Initializable {
     private TextField cantidadCarro;
 
     @FXML
-    private ComboBox<?> carroXPuestos;
+    private ComboBox<String> carroXPuestos;
 
     @FXML
-    private ChoiceBox<?> denominaciones;
+    private ChoiceBox<Billete> denominaciones;
 
     @FXML
     private Label fecha;
@@ -81,7 +83,6 @@ public class ControllerRentaCarros implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setFecha();
     }
 
     @FXML
@@ -94,14 +95,14 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         Linea linea = new Linea(
                 5,
-                facadeOCR.getCarroContro().existeCarro("ZJK064")
+                facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
         );
         System.out.println("a");
         try{
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
-            System.out.println(resumen.getLineas().toString());
+
             renderTable(resumen);
 
         }catch (ErrorAgregarLinea ex){
@@ -124,13 +125,27 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void mostrarPuestosXPlaca(ActionEvent event) {
-
+        /*
+        * cada vez que se seleccione una placa del combobox se debe actualizar los puestos en la variable puestosLabel
+        * para buscar los puestos se puede usar la consulta existe carro, devuelve todos los atributos con tan solo dar la placa
+        * */
     }
 
     @FXML
     void nuevaRenta(ActionEvent event) {
+        /*
+         * es necesario que cuando se inicie el programa darle al boton nueva renta, este crea una instancia de renta
+         * para poder agregar las lineas
+         * en este parte del codigo se puso siempre la renta 1 hay que llevar un consecutivo de rentas
+         *
+         * se deben crear metodos para llenar los combox de placa, y billetes y esto solo cada vez que se haga una nueva renta
+         * */
         this.facadeOCR.setRentaActual(new Renta());
         setFecha();
+        carros = facadeOCR.getCarroContro().consultarCarros();
+        for (Carro c : carros){
+            carroXPuestos.getItems().add(c.getPlaca());
+        }
     }
 
     @FXML
@@ -144,9 +159,11 @@ public class ControllerRentaCarros implements Initializable {
     }
     public void clearTable (){
         tablaLinea.getItems().clear();
+        totalRenta.setText("0");
     }
     public void renderTable (DTOResumen resumen){
         clearTable();
         tablaLinea.getItems().addAll(resumen.getLineas());
+        totalRenta.setText(String.valueOf(resumen.getTotalRenta()));
     }
 }

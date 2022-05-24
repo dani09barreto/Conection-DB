@@ -44,11 +44,14 @@ public class FacadeOCR {
 
 
     public DTOResumen agregarLinea (Linea dtoLinea) throws ErrorPago {
+        Double descuento;
         this.numeroLinea ++;
-        dtoLinea.setNumero(numeroLinea);
-        this.rentaActual.setNumero(IDRenta);
         DTOResumen resumen;
         Linea lineaTemp;
+        dtoLinea.setNumero(numeroLinea);
+        this.rentaActual.setNumero(IDRenta);
+        descuento = carroContro.calcularDescuento(dtoLinea.getCantidad());
+
         if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
             resumen = respuestaRenta(this.rentaActual);
             resumen.setMensajeError("El carro seleccionado no se encuentra en la Base de Datos");
@@ -63,17 +66,18 @@ public class FacadeOCR {
             this.numeroLinea --;
             Integer cantidad = lineaTemp.getCantidad() + dtoLinea.getCantidad();
             carroContro.updateLinea(cantidad, lineaTemp.getID());
-            System.out.println("Actualizada");
             for (Linea ln : this.rentaActual.getLineas()){
                 if (ln.getNumero()  == lineaTemp.getNumero()){
+                    int subTotal = cantidad*ln.getCarroRentado().getPrecio();
                     ln.setCantidad(cantidad);
+                    ln.setSubTotal((int) (subTotal - (subTotal*descuento)));
                 }
             }
             resumen = respuestaRenta(this.rentaActual);
             return resumen;
         }
         carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
-        System.out.println("Insertada");
+        dtoLinea.setSubTotal((int) (dtoLinea.getSubTotal() - (dtoLinea.getSubTotal()*descuento)));
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);
         return resumen;
@@ -100,6 +104,7 @@ public class FacadeOCR {
     public ArrayList <Billete> consultarBilletes (){
         return null;
     }
+
     /*
     public List<Libro> ConsultarLibrosPorAutor(String p_author, int p_rating) {
         RepositorioLibro repo = new RepositorioLibro();

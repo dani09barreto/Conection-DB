@@ -2,12 +2,31 @@ package org.example.Integration;
 
 import org.example.Controller.Constantes;
 import org.example.Model.Carro;
-import org.example.Model.Libro;
 import org.example.Model.Linea;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class RepositorioCarro {
+
+    public ArrayList <Carro> consultarCarros (){
+        ArrayList <Carro> carros = new ArrayList<>();
+        String SQL = "select *\n" +
+                "from carro";
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL);
+                ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                carros.add(crearCarro(rs));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return carros;
+    }
 
     public Carro existeCarro (String placa){
         StringBuilder SQL =
@@ -58,7 +77,7 @@ public class RepositorioCarro {
 
     public Linea existeCarroEnLinea (String placa){
         StringBuilder SQL =
-                new StringBuilder("select l.numero, l.cantidad\n" +
+                new StringBuilder("select l.id ,l.numero, l.cantidad\n" +
                         "from carro c, linea l\n" +
                         "where c.id = l.carroid and c.placa = ?");
         try (
@@ -69,6 +88,7 @@ public class RepositorioCarro {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     return new Linea(
+                            rs.getInt("ID"),
                             rs.getInt("NUMERO"),
                             rs.getInt("CANTIDAD")
                     );
@@ -112,8 +132,6 @@ public class RepositorioCarro {
         );
     }
 
-    //tener en cuenta el id del carro para poder hacer el insert
-
     public int insertarLinea(Linea linea, Integer IDRenta) {
         int afectadas = 0;
         String SQL = "INSERT INTO Linea(Rentaid, Carroid, numero, cantidad) VALUES (?, ?, ?, ?)";
@@ -134,5 +152,29 @@ public class RepositorioCarro {
             ex.printStackTrace();
         }
         return afectadas;
+    }
+
+    public Double calcularDescuento ( Integer cantidad){
+        StringBuilder SQL =
+                new StringBuilder("select r.descuento\n" +
+                        "from rangodescuento  r\n" +
+                        "where r.cantidad1 <= ? and r.cantidad2 >= ?");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            //se asignan los valores a los parametros
+            ps.setInt(1, cantidad);
+            ps.setInt(2, cantidad);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    return (rs.getDouble("DESCUENTO")/100);
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

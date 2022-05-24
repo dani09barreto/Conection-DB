@@ -61,13 +61,13 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Button_EliminarLinea" layoutX="369.0" layoutY="327.0" mnemonicParsing="false" onAction="#eliminarLinea" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #ffcbdb;" text="Eliminar Linea" />
-                        <Label layoutX="607.0" layoutY="330.0" text="Total Renta:">
+                        <Button fx:id="Button_EliminarLinea" layoutX="374.0" layoutY="327.0" mnemonicParsing="false" onAction="#eliminarLinea" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #ffcbdb;" text="Eliminar Linea" />
+                        <Label layoutX="575.0" layoutY="330.0" text="Total Renta:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalRenta" layoutX="727.0" layoutY="330.0" text="9600">
+                        <Label fx:id="totalRenta" alignment="CENTER" layoutX="704.0" layoutY="330.0" prefHeight="19.0" prefWidth="58.0" text="9600">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -147,7 +147,7 @@
                               <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="679.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="647.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/Renta.jpeg" />
                            </image>
@@ -196,6 +196,11 @@
                               </AnchorPane>
                           </content>
                         </ScrollPane>
+                        <Label fx:id="totalRenta1" layoutX="691.0" layoutY="330.0" text="\$">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>
