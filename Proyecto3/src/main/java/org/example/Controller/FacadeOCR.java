@@ -79,6 +79,7 @@ public class FacadeOCR {
         carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);
+        System.out.println("Renta: " +this.rentaActual.getNumero()+ " Linea" + this.numeroLinea);
         return resumen;
     }
 
@@ -106,18 +107,6 @@ public class FacadeOCR {
         return null;
     }
 
-    /*
-    public List<Libro> ConsultarLibrosPorAutor(String p_author, int p_rating) {
-        RepositorioLibro repo = new RepositorioLibro();
-        return repo.ConsultarLibrosPorAutor(p_author, p_rating);
-    }
-
-
-    public List<Libro> ConsultarLibros() {
-        RepositorioLibro repo = new RepositorioLibro();
-        return repo.ConsultarLibros();
-    }*/
-
     public RepositorioCarro getCarroContro() {
         return carroContro;
     }
@@ -130,11 +119,9 @@ public class FacadeOCR {
         return rentaActual;
     }
 
-    public void setRentaActual(Renta rentaActual) {
-        this.rentaActual = rentaActual;
-    }
-
-    public void setNumeroLinea(Integer numeroLinea) {
-        this.numeroLinea = numeroLinea;
+    public void buildNuevaRenta (Integer numeroRenta, Renta nuevaRenta){
+        this.rentaActual = nuevaRenta;
+        this.rentaActual.setNumero(numeroRenta);
+        this.numeroLinea = 0;
     }
 }

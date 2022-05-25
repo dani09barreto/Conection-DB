@@ -144,10 +144,7 @@ public class ControllerRentaCarros implements Initializable {
          * se deben crear metodos para llenar los combox de placa, y billetes y esto solo cada vez que se haga una nueva renta
          * */
         this.numeroRenta ++;
-        Renta nuevaRenta = new Renta();
-        nuevaRenta.setNumero(numeroRenta);
-        this.facadeOCR.setRentaActual(nuevaRenta);
-        this.facadeOCR.setNumeroLinea(0);
+        this.facadeOCR.buildNuevaRenta(numeroRenta, new Renta());
         setFecha();
         for (Carro c : facadeOCR.consultarCarros()){
             carroXPuestos.getItems().add(c.getPlaca());
