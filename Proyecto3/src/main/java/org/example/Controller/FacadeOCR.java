@@ -66,17 +66,15 @@ public class FacadeOCR {
             Integer cantidad = lineaTemp.getCantidad() + dtoLinea.getCantidad();
             carroContro.updateLinea(cantidad, lineaTemp.getID());
             for (Linea ln : this.rentaActual.getLineas()){
-                if (ln.getNumero()  == lineaTemp.getNumero()){
+                if (ln.getNumero() == lineaTemp.getNumero()){
                     int subTotal = cantidad*ln.getCarroRentado().getPrecio();
                     ln.setCantidad(cantidad);
-                    ln.setSubTotal((int) (subTotal - (subTotal*descuento)));
                 }
             }
             resumen = respuestaRenta(this.rentaActual);
             return resumen;
         }
         carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
-        dtoLinea.setSubTotal((int) (dtoLinea.getSubTotal() - (dtoLinea.getSubTotal()*descuento)));
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);
         return resumen;

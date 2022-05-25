@@ -91,6 +91,7 @@ public class ControllerRentaCarros implements Initializable {
     @FXML
     void agregarLinea(ActionEvent event) {
         DTOResumen resumen;
+        Double descuento;
         Linea linea = new Linea(
                 Integer.parseInt(cantidadCarro.getText()),
                 facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())

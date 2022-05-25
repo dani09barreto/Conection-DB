@@ -154,6 +154,28 @@ public class RepositorioCarro {
         return afectadas;
     }
 
+    public Integer cantidadCarrosRenta(){
+        Integer filas = 0;
+        StringBuilder SQL =
+                new StringBuilder("select *\n" +
+                        "from LINEA l, RENTA r\n" +
+                        "where r.ID = l.RENTAID");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            //se asignan los valores a los parametros
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    filas ++;
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return filas;
+    }
     public Double calcularDescuento ( Integer cantidad){
         StringBuilder SQL =
                 new StringBuilder("select r.descuento\n" +
