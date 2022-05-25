@@ -119,6 +119,11 @@ public class FacadeOCR {
         return rentaActual;
     }
 
+    /*
+    * funcion que crea una nueva renta - esto para no tener que usar metodos set y hacer un poco mas limpio el codigo
+    * asigna nueva instancia de renta con el numero dado por el controlador de la pantalla y el numero de lineas de setea en 0
+    * ya que son nuevas lineas
+    * */
     public void buildNuevaRenta (Integer numeroRenta, Renta nuevaRenta){
         this.rentaActual = nuevaRenta;
         this.rentaActual.setNumero(numeroRenta);
