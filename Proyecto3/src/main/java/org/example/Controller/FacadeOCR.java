@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FacadeOCR {
-    private Integer numeroLinea = 0;
-    private Integer IDRenta = 1;
+    private Integer numeroLinea;
     private Renta rentaActual;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
@@ -19,12 +18,16 @@ public class FacadeOCR {
         DTOResumen resumen = new DTOResumen();
         Integer totalRenta = 0;
         Integer saldoBilletes = 0;
+        Double descuento;
+        Integer lineasRenta;
         resumen.setMensajeError(null);
         resumen.setLineas(renta.getLineas());
         for (Linea ln : renta.getLineas()){
             totalRenta += ln.getSubTotal();
         }
-        resumen.setTotalRenta(totalRenta);
+        lineasRenta = this.carroContro.cantidadCarrosRenta(renta.getNumero());
+        descuento = this.carroContro.calcularDescuento(lineasRenta);
+        resumen.setTotalRenta((int) (totalRenta - totalRenta*descuento));
 
         for (Billete bll: renta.getPagoBilletes()){
             saldoBilletes += (bll.getDenominacion()*bll.getCantidad());
@@ -43,13 +46,11 @@ public class FacadeOCR {
     }
 
     public DTOResumen agregarLinea (Linea dtoLinea) throws ErrorPago {
-        Double descuento;
         this.numeroLinea ++;
         DTOResumen resumen;
         Linea lineaTemp;
         dtoLinea.setNumero(numeroLinea);
-        this.rentaActual.setNumero(IDRenta);
-        descuento = carroContro.calcularDescuento(dtoLinea.getCantidad());
+        this.rentaActual.setNumero(rentaActual.getNumero());
 
         if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
             resumen = respuestaRenta(this.rentaActual);
@@ -66,19 +67,19 @@ public class FacadeOCR {
             Integer cantidad = lineaTemp.getCantidad() + dtoLinea.getCantidad();
             carroContro.updateLinea(cantidad, lineaTemp.getID());
             for (Linea ln : this.rentaActual.getLineas()){
-                if (ln.getNumero()  == lineaTemp.getNumero()){
+                if (ln.getNumero() == lineaTemp.getNumero()){
                     int subTotal = cantidad*ln.getCarroRentado().getPrecio();
                     ln.setCantidad(cantidad);
-                    ln.setSubTotal((int) (subTotal - (subTotal*descuento)));
+                    ln.setSubTotal(subTotal);
                 }
             }
             resumen = respuestaRenta(this.rentaActual);
             return resumen;
         }
         carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
-        dtoLinea.setSubTotal((int) (dtoLinea.getSubTotal() - (dtoLinea.getSubTotal()*descuento)));
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);
+        System.out.println("Renta: " +this.rentaActual.getNumero()+ " Linea" + this.numeroLinea);
         return resumen;
     }
 
@@ -106,18 +107,6 @@ public class FacadeOCR {
         return null;
     }
 
-    /*
-    public List<Libro> ConsultarLibrosPorAutor(String p_author, int p_rating) {
-        RepositorioLibro repo = new RepositorioLibro();
-        return repo.ConsultarLibrosPorAutor(p_author, p_rating);
-    }
-
-
-    public List<Libro> ConsultarLibros() {
-        RepositorioLibro repo = new RepositorioLibro();
-        return repo.ConsultarLibros();
-    }*/
-
     public RepositorioCarro getCarroContro() {
         return carroContro;
     }
@@ -130,11 +119,14 @@ public class FacadeOCR {
         return rentaActual;
     }
 
-    public void setRentaActual(Renta rentaActual) {
-        this.rentaActual = rentaActual;
-    }
-
-    public void setIDRenta(Integer IDRenta) {
-        this.IDRenta = IDRenta;
+    /*
+    * funcion que crea una nueva renta - esto para no tener que usar metodos set y hacer un poco mas limpio el codigo
+    * asigna nueva instancia de renta con el numero dado por el controlador de la pantalla y el numero de lineas de setea en 0
+    * ya que son nuevas lineas
+    * */
+    public void buildNuevaRenta (Integer numeroRenta, Renta nuevaRenta){
+        this.rentaActual = nuevaRenta;
+        this.rentaActual.setNumero(numeroRenta);
+        this.numeroLinea = 0;
     }
 }
