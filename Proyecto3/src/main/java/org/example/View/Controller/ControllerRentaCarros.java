@@ -126,6 +126,8 @@ public class ControllerRentaCarros implements Initializable {
         * cada vez que se seleccione una placa del combobox se debe actualizar los puestos en la variable puestosLabel
         * para buscar los puestos se puede usar la consulta existe carro, devuelve todos los atributos con tan solo dar la placa
         * */
+        Integer puestos = facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem()).getPuestos();
+        puestosLabel.setText(String.valueOf(puestos));
     }
 
     @FXML
@@ -139,6 +141,9 @@ public class ControllerRentaCarros implements Initializable {
          * */
         this.facadeOCR.setRentaActual(new Renta());
         setFecha();
+        for (Carro c : facadeOCR.consultarCarros()){
+            carroXPuestos.getItems().add(c.getPlaca());
+        }
     }
 
     @FXML
