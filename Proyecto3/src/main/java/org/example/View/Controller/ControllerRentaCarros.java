@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class ControllerRentaCarros implements Initializable {
 
     private final FacadeOCR facadeOCR = new FacadeOCR();
+    Integer numeroRenta = 0;
 
     @FXML
     private Button Button_AgregarBillete;
@@ -92,6 +93,7 @@ public class ControllerRentaCarros implements Initializable {
     void agregarLinea(ActionEvent event) {
         DTOResumen resumen;
         Double descuento;
+        Integer lineas;
         Linea linea = new Linea(
                 Integer.parseInt(cantidadCarro.getText()),
                 facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
@@ -100,7 +102,8 @@ public class ControllerRentaCarros implements Initializable {
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
-
+            lineas = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
+            System.out.println();
             renderTable(resumen);
 
         }catch (ErrorAgregarLinea ex){
@@ -140,7 +143,11 @@ public class ControllerRentaCarros implements Initializable {
          *
          * se deben crear metodos para llenar los combox de placa, y billetes y esto solo cada vez que se haga una nueva renta
          * */
-        this.facadeOCR.setRentaActual(new Renta());
+        this.numeroRenta ++;
+        Renta nuevaRenta = new Renta();
+        nuevaRenta.setNumero(numeroRenta);
+        this.facadeOCR.setRentaActual(nuevaRenta);
+        this.facadeOCR.setNumeroLinea(0);
         setFecha();
         for (Carro c : facadeOCR.consultarCarros()){
             carroXPuestos.getItems().add(c.getPlaca());

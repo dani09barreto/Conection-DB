@@ -154,7 +154,7 @@ public class RepositorioCarro {
         return afectadas;
     }
 
-    public Integer cantidadCarrosRenta(){
+    public Integer cantidadCarrosRenta(Integer rentaActual){
         Integer filas = 0;
         StringBuilder SQL =
                 new StringBuilder("select *\n" +
