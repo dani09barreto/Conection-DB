@@ -97,9 +97,11 @@ public class FacadeOCR {
     public DTOReporte consultarAcomulados (){
         return null;
     }
+
     public ArrayList <Carro> consultarCarros (){
-        return null;
+        return this.carroContro.consultarCarros();
     }
+
     public ArrayList <Billete> consultarBilletes (){
         return null;
     }
