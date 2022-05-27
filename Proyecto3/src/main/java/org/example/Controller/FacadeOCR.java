@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import org.example.Integration.RepositorioBillete;
 import org.example.Integration.RepositorioCarro;
 import org.example.Integration.RepositorioRenta;
 import org.example.Model.*;
@@ -13,6 +14,8 @@ public class FacadeOCR {
     private Renta rentaActual;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
+
+    private RepositorioBillete billete = new RepositorioBillete();
 
     public DTOResumen respuestaRenta (Renta renta) throws ErrorPago {
         DTOResumen resumen = new DTOResumen();
@@ -105,7 +108,7 @@ public class FacadeOCR {
     }
 
     public ArrayList <Billete> consultarBilletes (){
-        return null;
+        return this.billete.consultarTiposBillete();
     }
 
     public RepositorioCarro getCarroContro() {
