@@ -50,7 +50,7 @@ public class FacadeOCR {
         DTOResumen resumen;
         Linea lineaTemp;
         dtoLinea.setNumero(numeroLinea);
-        this.rentaActual.setNumero(rentaActual.getNumero());
+        //this.rentaActual.setNumero(rentaActual.getNumero());
 
         if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
             resumen = respuestaRenta(this.rentaActual);
@@ -76,6 +76,7 @@ public class FacadeOCR {
             resumen = respuestaRenta(this.rentaActual);
             return resumen;
         }
+        System.out.println("renta :" + this.rentaActual.getNumero() + "Linea: "+ numeroLinea);
         carroContro.insertarLinea(dtoLinea, this.rentaActual.getNumero());
         this.rentaActual.getLineas().add(dtoLinea);
         resumen = respuestaRenta(this.rentaActual);
