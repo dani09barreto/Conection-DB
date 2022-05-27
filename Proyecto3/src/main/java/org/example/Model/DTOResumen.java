@@ -2,6 +2,7 @@ package org.example.Model;
 
 import org.example.Utils.AlertUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DTOResumen {

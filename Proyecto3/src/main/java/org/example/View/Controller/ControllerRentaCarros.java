@@ -48,7 +48,7 @@ public class ControllerRentaCarros implements Initializable {
     private ComboBox<String> carroXPuestos;
 
     @FXML
-    private ChoiceBox<Billete> denominaciones;
+    private ChoiceBox<Integer> denominaciones;
 
     @FXML
     private Label fecha;
@@ -148,6 +148,9 @@ public class ControllerRentaCarros implements Initializable {
         setFecha();
         for (Carro c : facadeOCR.consultarCarros()){
             carroXPuestos.getItems().add(c.getPlaca());
+        }
+        for (Billete b : facadeOCR.consultarBilletes()){
+            denominaciones.getItems().add(b.getDenominacion());
         }
     }
 
