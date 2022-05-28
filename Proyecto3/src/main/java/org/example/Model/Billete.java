@@ -13,7 +13,6 @@ public class Billete {
         this.cantidad = cantidad;
         this.denominacion = denominacion;
         this.total=cantidad*denominacion;
-        this.id=1;
     }
 
     public void setId(Integer id) {

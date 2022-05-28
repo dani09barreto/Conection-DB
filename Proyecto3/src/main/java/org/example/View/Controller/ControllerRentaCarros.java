@@ -87,7 +87,27 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void agregarBillete(ActionEvent event) {
-       
+        DTOResumen resumen;
+        Integer denominacion= denominaciones.getSelectionModel().getSelectedItem();
+        Billete billete=new Billete(
+                Integer.parseInt(cantidadBilletes.getText()),denominacion);
+
+
+        try{
+            resumen = facadeOCR.agregarBillete(billete);
+            if (resumen.getMensajeError() !=  null)
+                throw new ErrorAgregarBillete(resumen.getMensajeError());
+            //billete = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
+            System.out.println();
+            renderTable(resumen);
+
+
+        }catch (ErrorAgregarBillete ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
+        catch (ErrorPago ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
 
     }
 

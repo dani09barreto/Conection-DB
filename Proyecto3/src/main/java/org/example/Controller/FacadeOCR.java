@@ -115,7 +115,16 @@ public class FacadeOCR {
     }
 
     public DTOResumen agregarBillete (Billete dtoBillete) throws  ErrorPago {
-       return null;
+        DTOResumen resumen;
+        if (billete.existeBillete(dtoBillete.getDenominacion()) == null){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("El billete seleccionado no se encuentra en la Base de Datos");
+            return resumen;
+        }
+        billete.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+        this.rentaActual.getPagoBilletes().add(dtoBillete);
+        resumen=respuestaRenta(this.rentaActual);
+        return resumen;
     }
     public DTOResumen terminarRenta (){
         return null;
