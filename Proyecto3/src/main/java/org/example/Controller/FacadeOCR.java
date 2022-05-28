@@ -7,6 +7,7 @@ import org.example.Model.*;
 import org.example.Utils.Exeptions.ErrorPago;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class FacadeOCR {
@@ -44,8 +45,15 @@ public class FacadeOCR {
         return resumen;
     }
 
-    public Renta crearRenta (Renta dtoRenta){
-        return null;
+    public DTOResumen crearRenta (Renta dtoRenta) throws ErrorPago {
+        DTOResumen resumen = new DTOResumen();
+        if (carroContro.consultarCarros() == null){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("No hay carros en la base de datos");
+            return null;
+        }
+        int afectadas = rentaContro.insertarRenta(resumen, dtoRenta.getFechaHora());
+        return resumen;
     }
 
     public DTOResumen agregarLinea (Linea dtoLinea) throws ErrorPago {
@@ -128,9 +136,11 @@ public class FacadeOCR {
     * asigna nueva instancia de renta con el numero dado por el controlador de la pantalla y el numero de lineas de setea en 0
     * ya que son nuevas lineas
     * */
-    public void buildNuevaRenta (Integer numeroRenta, Renta nuevaRenta){
+    public Renta buildNuevaRenta (Integer numeroRenta, Renta nuevaRenta, Calendar fecha){
         this.rentaActual = nuevaRenta;
         this.rentaActual.setNumero(numeroRenta);
         this.numeroLinea = 0;
+        this.rentaActual.setFechaHora(fecha);
+        return rentaActual;
     }
 }
