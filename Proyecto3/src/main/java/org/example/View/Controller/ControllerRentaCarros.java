@@ -95,11 +95,11 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         Double descuento;
         Integer lineas;
-        Linea linea = new Linea(
-                Integer.parseInt(cantidadCarro.getText()),
-                facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
-        );
         try{
+            Linea linea = new Linea(
+                    Integer.parseInt(cantidadCarro.getText()),
+                    facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
+            );
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
@@ -107,7 +107,10 @@ public class ControllerRentaCarros implements Initializable {
             System.out.println();
             renderTable(resumen);
 
-        }catch (ErrorAgregarLinea ex){
+        }catch(RuntimeException ex){
+            AlertUtils.alertError("Error", "Primero debe crear una nueva renta", "");
+        }
+        catch (ErrorAgregarLinea ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }
         catch (ErrorPago ex){
@@ -177,7 +180,7 @@ public class ControllerRentaCarros implements Initializable {
 
     }
     public Calendar setFecha (){
-        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         Calendar fechaActual = Calendar.getInstance();
         this.fecha.setText(Fecha.format(fechaActual.getTime()));
         return fechaActual;
