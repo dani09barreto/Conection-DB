@@ -1,12 +1,23 @@
 package org.example.Model;
 
 public class Billete {
+
+
+    private Integer id;
     private Integer cantidad;
     private Integer denominacion;
+
+    private Integer total;
 
     public Billete(Integer cantidad, Integer denominacion) {
         this.cantidad = cantidad;
         this.denominacion = denominacion;
+        this.total=cantidad*denominacion;
+        this.id=1;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getCantidad() {
@@ -17,11 +28,25 @@ public class Billete {
         this.cantidad = cantidad;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+
+
     public Integer getDenominacion() {
         return denominacion;
     }
 
     public void setDenominacion(Integer denominacion) {
         this.denominacion = denominacion;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 }

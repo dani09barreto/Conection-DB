@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import org.example.Controller.FacadeOCR;
 import org.example.Model.*;
 import org.example.Utils.AlertUtils;
+import org.example.Utils.Exeptions.ErrorAgregarBillete;
 import org.example.Utils.Exeptions.ErrorAgregarLinea;
 import org.example.Utils.Exeptions.ErrorPago;
 
@@ -86,6 +87,7 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void agregarBillete(ActionEvent event) {
+       
 
     }
 
@@ -116,6 +118,24 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void eliminarLinea(ActionEvent event) {
+        DTOResumen resumen;
+        Double descuento;
+        Integer lineas;
+        try{
+            resumen = facadeOCR.eliminarLinea(this.tablaLinea.getSelectionModel().getSelectedItem());
+            if (resumen.getMensajeError() !=  null)
+                throw new ErrorAgregarLinea(resumen.getMensajeError());
+            lineas = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
+            System.out.println();
+            renderTable(resumen);
+
+
+        }catch (ErrorAgregarLinea ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
+        catch (ErrorPago ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
 
     }
 

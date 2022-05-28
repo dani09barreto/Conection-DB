@@ -7,11 +7,14 @@ import org.example.Model.*;
 import org.example.Utils.Exeptions.ErrorPago;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class FacadeOCR {
     private Integer numeroLinea;
     private Renta rentaActual;
+
+    private Integer total;
+
+    private Integer numeroCarro=0;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
 
@@ -25,6 +28,11 @@ public class FacadeOCR {
         Integer lineasRenta;
         resumen.setMensajeError(null);
         resumen.setLineas(renta.getLineas());
+        if(renta.getLineas().size()==0){
+            resumen.setTotalRenta(0);
+            resumen.setVueltas(0);
+            return resumen;
+        }
         for (Linea ln : renta.getLineas()){
             totalRenta += ln.getSubTotal();
         }
@@ -87,11 +95,27 @@ public class FacadeOCR {
         return resumen;
     }
 
-    public DTOResumen eliminarLinea (Linea dtoLinea){
-        return null;
+    public DTOResumen eliminarLinea (Linea dtoLinea) throws ErrorPago{
+        DTOResumen resumen;
+        this.numeroLinea --;
+
+        if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("El carro seleccionado no se encuentra en la Base de Datos");
+            return resumen;
+        }
+
+        System.out.println("renta :" + this.rentaActual.getNumero() + "Linea: "+ numeroLinea);
+        carroContro.eliminar(dtoLinea,this.rentaActual.getNumero());
+        this.rentaActual.getLineas().remove(dtoLinea);
+
+        resumen=respuestaRenta(this.rentaActual);
+        return resumen;
+
     }
-    public DTOResumen agregarBillete (Billete dtoBillete){
-        return null;
+
+    public DTOResumen agregarBillete (Billete dtoBillete) throws  ErrorPago {
+       return null;
     }
     public DTOResumen terminarRenta (){
         return null;
@@ -121,6 +145,10 @@ public class FacadeOCR {
 
     public Renta getRentaActual() {
         return rentaActual;
+    }
+
+    public RepositorioBillete getBillete() {
+        return billete;
     }
 
     /*

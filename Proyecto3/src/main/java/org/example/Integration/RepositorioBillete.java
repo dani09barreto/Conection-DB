@@ -1,8 +1,7 @@
 package org.example.Integration;
 
 import org.example.Controller.Constantes;
-import org.example.Model.Billete;
-import org.example.Model.Carro;
+import org.example.Model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,6 +31,15 @@ public class RepositorioBillete{
                 rs.getInt("ID"),
                 rs.getInt("DENOMINACION")
         );
+    }
+
+    public Billete existeBillete (Integer denominacion){
+
+        return null;
+
+    }
+    public int insertarBillete(Billete billete,Integer IDRenta ) {
+        return 0;
     }
 }
 

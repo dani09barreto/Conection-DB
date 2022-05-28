@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
    <children>
       <Label layoutX="363.0" layoutY="14.0" prefHeight="50.0" prefWidth="129.0" text="Renta Carros">
          <font>
@@ -170,22 +170,22 @@
                                  <children>
                                     <TableView fx:id="tablaLinea" prefHeight="258.0" prefWidth="395.0">
                                        <columns>
-                                          <TableColumn fx:id="columPlaca" editable="false" prefWidth="90.4000244140625" style="-fx-background-color: #ffe5f0;" text="Placas Carro">
+                                          <TableColumn fx:id="columPlaca" editable="false" prefWidth="90.4000244140625" text="Placas Carro">
                                              <cellValueFactory>
                                                 <javafx.scene.control.cell.PropertyValueFactory property="PlacaCarroRentado" />
                                              </cellValueFactory>
                                           </TableColumn>
-                                          <TableColumn fx:id="columCantidad" editable="false" prefWidth="96.0" style="-fx-background-color: #ffe5f0;" text="Cantidad">
+                                          <TableColumn fx:id="columCantidad" editable="false" prefWidth="96.0" text="Cantidad">
                                              <cellValueFactory>
                                                 <javafx.scene.control.cell.PropertyValueFactory property="Cantidad" />
                                              </cellValueFactory>
                                           </TableColumn>
-                                          <TableColumn fx:id="columPrecio" editable="false" prefWidth="98.0" style="-fx-background-color: #ffe5f0;" text="Precio">
+                                          <TableColumn fx:id="columPrecio" editable="false" prefWidth="98.0" text="Precio">
                                              <cellValueFactory>
                                                 <javafx.scene.control.cell.PropertyValueFactory property="PrecioCarro" />
                                              </cellValueFactory>
                                           </TableColumn>
-                                          <TableColumn fx:id="columSubTotal" editable="false" prefWidth="111.0" style="-fx-background-color: #ffe5f0;" text="SubTotal">
+                                          <TableColumn fx:id="columSubTotal" editable="false" prefWidth="111.0" text="SubTotal">
                                              <cellValueFactory>
                                                 <javafx.scene.control.cell.PropertyValueFactory property="SubTotal" />
                                              </cellValueFactory>
