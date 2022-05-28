@@ -8,6 +8,7 @@ import org.example.Controller.FacadeOCR;
 import org.example.Model.*;
 import org.example.Utils.AlertUtils;
 import org.example.Utils.Exeptions.ErrorAgregarLinea;
+import org.example.Utils.Exeptions.ErrorAgregarRenta;
 import org.example.Utils.Exeptions.ErrorPago;
 
 import java.net.URL;
@@ -94,11 +95,11 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         Double descuento;
         Integer lineas;
-        Linea linea = new Linea(
-                Integer.parseInt(cantidadCarro.getText()),
-                facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
-        );
         try{
+            Linea linea = new Linea(
+                    Integer.parseInt(cantidadCarro.getText()),
+                    facadeOCR.getCarroContro().existeCarro(carroXPuestos.getSelectionModel().getSelectedItem())
+            );
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
@@ -106,7 +107,10 @@ public class ControllerRentaCarros implements Initializable {
             System.out.println();
             renderTable(resumen);
 
-        }catch (ErrorAgregarLinea ex){
+        }catch(RuntimeException ex){
+            AlertUtils.alertError("Error", "Primero debe crear una nueva renta", "");
+        }
+        catch (ErrorAgregarLinea ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }
         catch (ErrorPago ex){
@@ -135,7 +139,8 @@ public class ControllerRentaCarros implements Initializable {
     }
 
     @FXML
-    void nuevaRenta(ActionEvent event) {
+    void nuevaRenta(ActionEvent event) throws ErrorPago {
+
         /*
          * es necesario que cuando se inicie el programa darle al boton nueva renta, este crea una instancia de renta
          * para poder agregar las lineas
@@ -143,29 +148,56 @@ public class ControllerRentaCarros implements Initializable {
          *
          * se deben crear metodos para llenar los combox de placa, y billetes y esto solo cada vez que se haga una nueva renta
          * */
+        DTOResumen resumen;
         this.numeroRenta ++;
-        this.facadeOCR.buildNuevaRenta(numeroRenta, new Renta());
-        setFecha();
+        this.clearScreen();
         for (Carro c : facadeOCR.consultarCarros()){
             carroXPuestos.getItems().add(c.getPlaca());
         }
         for (Billete b : facadeOCR.consultarBilletes()){
             denominaciones.getItems().add(b.getDenominacion());
         }
+
+        try{
+            Calendar fecha = setFecha();
+            Renta renta = this.facadeOCR.buildNuevaRenta(numeroRenta, new Renta(),fecha);
+            resumen = this.facadeOCR.crearRenta(renta);
+            if (resumen.getMensajeError() !=  null)
+                throw new ErrorAgregarRenta(resumen.getMensajeError());
+
+
+        }catch (ErrorAgregarRenta ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
+        catch (ErrorPago ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
+
     }
 
     @FXML
     void terminarRenta(ActionEvent event) {
 
     }
-    public void setFecha (){
-        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy");
+    public Calendar setFecha (){
+        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         Calendar fechaActual = Calendar.getInstance();
         this.fecha.setText(Fecha.format(fechaActual.getTime()));
+        return fechaActual;
     }
     public void clearTable (){
         tablaLinea.getItems().clear();
         totalRenta.setText("0");
+    }
+
+    public void clearScreen(){
+        tablaLinea.getItems().clear();
+        totalRenta.setText("0");
+        //carroXPuestos.getSelectionModel().clearSelection();
+       // denominaciones.getItems().clear();
+        cantidadCarro.setText("0");
+        cantidadBilletes.setText("0");
+        saldoBilletes.setText("0");
     }
     public void renderTable (DTOResumen resumen){
         clearTable();
