@@ -13,6 +13,10 @@ import java.util.Objects;
 public class FacadeOCR {
     private Integer numeroLinea;
     private Renta rentaActual;
+
+    private Integer total;
+
+    private Integer numeroCarro=0;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
 
@@ -26,6 +30,11 @@ public class FacadeOCR {
         Integer lineasRenta;
         resumen.setMensajeError(null);
         resumen.setLineas(renta.getLineas());
+        if(renta.getLineas().size()==0){
+            resumen.setTotalRenta(0);
+            resumen.setVueltas(0);
+            return resumen;
+        }
         for (Linea ln : renta.getLineas()){
             totalRenta += ln.getSubTotal();
         }
@@ -95,12 +104,52 @@ public class FacadeOCR {
         return resumen;
     }
 
-    public DTOResumen eliminarLinea (Linea dtoLinea){
-        return null;
+    public DTOResumen eliminarLinea (Linea dtoLinea) throws ErrorPago{
+        DTOResumen resumen;
+        this.numeroLinea --;
+
+        if (carroContro.existeCarro(dtoLinea.getCarroRentado().getPlaca()) == null){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("El carro seleccionado no se encuentra en la Base de Datos");
+            return resumen;
+        }
+
+        System.out.println("renta :" + this.rentaActual.getNumero() + "Linea: "+ numeroLinea);
+        carroContro.eliminar(dtoLinea,this.rentaActual.getNumero());
+        this.rentaActual.getLineas().remove(dtoLinea);
+
+        resumen=respuestaRenta(this.rentaActual);
+        return resumen;
+
     }
-    public DTOResumen agregarBillete (Billete dtoBillete){
-        return null;
+
+    public DTOResumen agregarBillete (Billete dtoBillete) throws  ErrorPago {
+        DTOResumen resumen;
+        Billete billeteTemp;
+
+        if (billete.existeBillete(dtoBillete.getDenominacion()) == null){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("El billete seleccionado no se encuentra en la Base de Datos");
+            return resumen;
+        }
+        if((billeteTemp=billete.existeBillete(dtoBillete.getDenominacion())) != null){
+            Integer cantidad = billeteTemp.getCantidad();
+            dtoBillete.setId(billete.existeIdBillete(billeteTemp));
+            System.out.println("id "+ dtoBillete.getId());
+            for (Billete bl : this.rentaActual.getPagoBilletes()){
+                int total =(cantidad*bl.getDenominacion());
+                bl.setCantidad(cantidad);
+                bl.setTotal(total);
+            }
+            billete.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+            this.rentaActual.getPagoBilletes().add(dtoBillete);
+            resumen=respuestaRenta(this.rentaActual);
+            return resumen;
+        }
+
+      return null;
     }
+
     public DTOResumen terminarRenta (){
         return null;
     }
@@ -129,6 +178,10 @@ public class FacadeOCR {
 
     public Renta getRentaActual() {
         return rentaActual;
+    }
+
+    public RepositorioBillete getBillete() {
+        return billete;
     }
 
     /*

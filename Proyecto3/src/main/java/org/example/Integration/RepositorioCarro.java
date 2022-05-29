@@ -153,6 +153,24 @@ public class RepositorioCarro {
         }
         return afectadas;
     }
+    public int eliminar(Linea linea, Integer IDRenta) {
+        int afectadas = 0;
+        String SQL = "DELETE FROM Linea WHERE Numero = ?";
+
+        try (
+                Connection conex = DriverManager.getConnection(
+                        Constantes.THINCONN,
+                        Constantes.USERNAME,
+                        Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL);) {
+            ps.setInt(1, linea.getNumero());
+            afectadas = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return afectadas;
+    }
 
     public Integer cantidadCarrosRenta(Integer rentaActual){
         Integer filas = 0;
