@@ -49,4 +49,6 @@ public class Renta {
     public void setPagoBilletes(ArrayList<Billete> pagoBilletes) {
         this.pagoBilletes = pagoBilletes;
     }
+
+
 }
