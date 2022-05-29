@@ -116,16 +116,31 @@ public class FacadeOCR {
 
     public DTOResumen agregarBillete (Billete dtoBillete) throws  ErrorPago {
         DTOResumen resumen;
+        Billete billeteTemp;
+
         if (billete.existeBillete(dtoBillete.getDenominacion()) == null){
             resumen = respuestaRenta(this.rentaActual);
             resumen.setMensajeError("El billete seleccionado no se encuentra en la Base de Datos");
             return resumen;
         }
-        billete.insertarBillete(dtoBillete,this.rentaActual.getNumero());
-        this.rentaActual.getPagoBilletes().add(dtoBillete);
-        resumen=respuestaRenta(this.rentaActual);
-        return resumen;
+        if((billeteTemp=billete.existeBillete(dtoBillete.getDenominacion())) != null){
+            Integer cantidad = billeteTemp.getCantidad();
+            dtoBillete.setId(billete.existeIdBillete(billeteTemp));
+            System.out.println("id "+ dtoBillete.getId());
+            for (Billete bl : this.rentaActual.getPagoBilletes()){
+                int total =(cantidad*bl.getDenominacion());
+                bl.setCantidad(cantidad);
+                bl.setTotal(total);
+            }
+            billete.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+            this.rentaActual.getPagoBilletes().add(dtoBillete);
+            resumen=respuestaRenta(this.rentaActual);
+            return resumen;
+        }
+
+      return null;
     }
+
     public DTOResumen terminarRenta (){
         return null;
     }

@@ -211,5 +211,6 @@ public class ControllerRentaCarros implements Initializable {
         clearTable();
         tablaLinea.getItems().addAll(resumen.getLineas());
         totalRenta.setText(String.valueOf(resumen.getTotalRenta()));
+        saldoBilletes.setText(String.valueOf(resumen.getSaldoBilletes()));
     }
 }

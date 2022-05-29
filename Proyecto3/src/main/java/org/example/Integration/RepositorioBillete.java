@@ -33,6 +33,31 @@ public class RepositorioBillete{
         );
     }
 
+    public int existeIdBillete(Billete billete){
+        int id;
+        StringBuilder SQL =
+                new StringBuilder("select b.ID\n" +
+                        "from BILLETE b\n" +
+                        "where b.denominacion = ?");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            //se asignan los valores a los parametros
+            ps.setInt(1, billete.getDenominacion());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("ID");
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return 0;
+
+    }
+
     public Billete existeBillete (Integer denominacion){
         StringBuilder SQL =
                 new StringBuilder("select b.ID, b.denominacion\n" +

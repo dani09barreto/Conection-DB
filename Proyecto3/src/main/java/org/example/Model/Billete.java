@@ -12,7 +12,7 @@ public class Billete {
     public Billete(Integer cantidad, Integer denominacion) {
         this.cantidad = cantidad;
         this.denominacion = denominacion;
-        this.total=cantidad*denominacion;
+        this.total = cantidad*denominacion;
     }
 
     public void setId(Integer id) {
