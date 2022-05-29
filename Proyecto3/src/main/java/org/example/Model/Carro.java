@@ -17,6 +17,13 @@ public class Carro {
         this.puestos = puestos;
     }
 
+    public Carro(String placa, Integer unidadesDisponibles, Integer precio, Integer puestos) {
+        Placa = placa;
+        this.unidadesDisponibles = unidadesDisponibles;
+        this.precio = precio;
+        this.puestos = puestos;
+    }
+
     public Integer getID() {
         return ID;
     }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="856.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.View.Controller.ControllerRentaCarros">
    <children>
       <Label layoutX="363.0" layoutY="14.0" prefHeight="50.0" prefWidth="129.0" text="Renta Carros">
          <font>
@@ -29,33 +29,33 @@
                   <AnchorPane layoutX="23.0" layoutY="26.0" prefHeight="611.0" prefWidth="770.0" style="-fx-background-color: white;">
                      <children>
                         <Separator layoutX="354.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="4.0" />
-                        <Label layoutX="21.0" layoutY="70.0" text="Fecha Renta:">
+                        <Label layoutX="21.0" layoutY="117.0" text="Fecha Renta:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fecha" layoutX="178.0" layoutY="70.0" prefHeight="19.0" prefWidth="101.0" text="------------------">
+                        <Label fx:id="fecha" layoutX="150.0" layoutY="117.0" prefHeight="19.0" prefWidth="167.0" text="-------------------------------">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="19.0" layoutY="111.0" text="Seleccione carro por">
+                        <Label layoutX="19.0" layoutY="158.0" text="Seleccione carro por">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="19.0" layoutY="128.0" text="número de puestos:">
+                        <Label layoutX="19.0" layoutY="175.0" text="número de puestos:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="23.0" layoutY="201.0" text="Cantidad:">
+                        <Label layoutX="49.0" layoutY="250.0" text="Cantidad:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Button fx:id="Button_AgregarLinea" layoutX="130.0" layoutY="268.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
-                        <TextField fx:id="cantidadCarro" layoutX="179.0" layoutY="199.0" prefHeight="26.0" prefWidth="56.0" promptText="5" />
+                        <Button fx:id="Button_AgregarLinea" layoutX="130.0" layoutY="315.0" mnemonicParsing="false" onAction="#agregarLinea" style="-fx-background-color: #ffcbdb;" text="Agregar Linea" />
+                        <TextField fx:id="cantidadCarro" layoutX="179.0" layoutY="246.0" prefHeight="26.0" prefWidth="56.0" text="1" />
                         <Label layoutX="369.0" layoutY="28.0" text="Líneas de la Renta:">
                            <font>
                               <Font size="15.0" />
@@ -107,22 +107,22 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="vueltas" layoutX="462.0" layoutY="480.0" text="400">
+                        <Label fx:id="vueltas" layoutX="462.0" layoutY="480.0">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="103.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="103.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/calendario.jpeg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="138.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="138.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/asiento.jpg" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="83.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="34.0" fitWidth="26.0" layoutX="125.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/carro.jpeg" />
                            </image>
@@ -152,14 +152,14 @@
                               <Image url="@img/Renta.jpeg" />
                            </image>
                         </ImageView>
-                        <Button fx:id="Button_NuevaRenta" layoutX="133.0" layoutY="26.0" mnemonicParsing="false" onAction="#nuevaRenta" style="-fx-background-color: #ffcbdb;" text="Nueva Renta" />
-                        <ComboBox fx:id="carroXPuestos" layoutX="176.0" layoutY="117.0" onAction="#mostrarPuestosXPlaca" prefHeight="25.0" prefWidth="162.0" style="-fx-background-color: #ffe5f0;" />
-                        <Label layoutX="193.0" layoutY="155.0" text="Puestos:">
+                        <Button fx:id="Button_NuevaRenta" layoutX="138.0" layoutY="74.0" mnemonicParsing="false" onAction="#nuevaRenta" style="-fx-background-color: #ffcbdb;" text="Nueva Renta" />
+                        <ComboBox fx:id="carroXPuestos" layoutX="176.0" layoutY="164.0" onAction="#mostrarPuestosXPlaca" prefHeight="25.0" prefWidth="162.0" style="-fx-background-color: #ffe5f0;" />
+                        <Label layoutX="193.0" layoutY="202.0" text="Puestos:">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="puestosLabel" layoutX="261.0" layoutY="155.0" prefHeight="19.0" prefWidth="46.0">
+                        <Label fx:id="puestosLabel" layoutX="261.0" layoutY="202.0" prefHeight="19.0" prefWidth="46.0">
                            <font>
                               <Font size="13.0" />
                            </font>
@@ -201,6 +201,13 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
+                        <Label layoutX="21.0" layoutY="29.0" text="Consultar Renta">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="numRenta" layoutX="157.0" layoutY="26.0" prefHeight="19.0" prefWidth="45.0" promptText="0" />
+                        <Button fx:id="btnConsultar" layoutX="257.0" layoutY="26.0" mnemonicParsing="false" onAction="#consultarRenta" style="-fx-background-color: #ffcbdb;" text="Consultar" />
                      </children>
                   </AnchorPane>
                </children>

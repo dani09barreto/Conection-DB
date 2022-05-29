@@ -23,6 +23,13 @@ public class Linea {
         this.cantidad = cantidad;
     }
 
+    public Linea(Integer numero, Integer cantidad, Carro carroRentado) {
+        this.numero = numero;
+        this.cantidad = cantidad;
+        this.carroRentado = carroRentado;
+        this.subTotal = cantidad*carroRentado.getPrecio();
+    }
+
     public Integer getID() {
         return ID;
     }
