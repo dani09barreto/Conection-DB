@@ -214,7 +214,7 @@ public class ControllerRentaCarros implements Initializable {
 
     }
 
-    @FXML
+  @FXML
     void consultarRenta(ActionEvent event) {
         DTOResumen resumen;
         Renta renta = new Renta();
@@ -228,6 +228,7 @@ public class ControllerRentaCarros implements Initializable {
         }catch (ErrorRentaNoExiste ex){
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }
+
     }
 
     public Calendar setFecha (){

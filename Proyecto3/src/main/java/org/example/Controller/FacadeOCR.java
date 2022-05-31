@@ -144,13 +144,15 @@ public class FacadeOCR {
         return null;
     }
 
-    public DTOResumen consultarRenta (Renta dtoRenta){
+   public DTOResumen consultarRenta (Renta dtoRenta){
         Renta rentaConsultada = rentaContro.ConsultarRenta(dtoRenta.getNumero());
-        DTOResumen resumen = new DTOResumen();
+        DTOResumen resumen;
         if (rentaConsultada.getNumero() == null){
-            resumen.setMensajeError("Error Renta a consultar no existe");
-            return  resumen;
+            resumen = respuestaRenta(rentaConsultada);
+            resumen.setMensajeError("La renta consultada no existe");
+            return resumen;
         }
+        System.out.println(rentaConsultada.toString());
         resumen = respuestaRenta(rentaConsultada);
         return resumen;
     }

@@ -67,4 +67,15 @@ public class Carro {
     public void calcularValor (){
 
     }
+
+    @Override
+    public String toString() {
+        return "Carro{" +
+                "ID=" + ID +
+                ", Placa='" + Placa + '\'' +
+                ", unidadesDisponibles=" + unidadesDisponibles +
+                ", precio=" + precio +
+                ", puestos=" + puestos +
+                '}';
+    }
 }

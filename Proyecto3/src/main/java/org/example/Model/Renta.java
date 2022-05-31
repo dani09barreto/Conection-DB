@@ -50,5 +50,14 @@ public class Renta {
         this.pagoBilletes = pagoBilletes;
     }
 
-
+    @Override
+    public String toString() {
+        return "Renta{" +
+                "ID=" + ID +
+                ", numero=" + numero +
+                ", fechaHora=" + fechaHora +
+                ", lineas=" + lineas +
+                ", pagoBilletes=" + pagoBilletes +
+                '}';
+    }
 }

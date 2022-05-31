@@ -18,7 +18,7 @@ public class RepositorioRenta {
                         Constantes.USERNAME,
                         Constantes.PASSWORD);
                 PreparedStatement ps = conex.prepareStatement(SQL);) {
-            ps.setDate(1,new java.sql.Date(fecha.getTimeInMillis()));
+            ps.setDate(1, new java.sql.Date(fecha.getTimeInMillis()));
             afectadas = ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
@@ -27,29 +27,23 @@ public class RepositorioRenta {
         return afectadas;
     }
 
-    public Renta ConsultarRenta (Integer numeroRenta){
+    public Renta ConsultarRenta(Integer numeroRenta) {
         Renta rentaConsultada = new Renta();
+        Calendar fecha = Calendar.getInstance();
         StringBuilder SQL =
                 new StringBuilder("select\n" +
-                        "       c.PLACA,\n" +
-                        "       c.UNIDADESDISPONIBLES,\n" +
-                        "       c.PUESTOS,\n" +
-                        "       c.PRECIO,\n" +
-                        "       l.CANTIDAD as CANTIDADCARRO,\n" +
-                        "       l.NUMERO, r.ID as IDRENTA,\n" +
-                        "       r.FECHA, b.DENOMINACION,\n" +
-                        "       cpb.CANTIDAD as CANTIDADBILLETE\n" +
-                        "from carro c, linea l, renta r, CANTIDADPORBILLETE cpb, BILLETE b\n" +
-                        "where c.ID = l.CARROID and r.ID = l.RENTAID and\n" +
-                        "      b.ID = cpb.BILLETEID and r.ID = cpb.RENTAID\n" +
-                        "      and r.ID = ?");
+                        "    *\n" +
+                        "from renta r\n" +
+                        "where r.ID = ?");
         try (
                 Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
                 PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
-                ps.setInt(1, numeroRenta);
+            ps.setInt(1, numeroRenta);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()){
-                    buildRenta(rs, rentaConsultada);
+                while (rs.next()) {
+                    rentaConsultada.setNumero(rs.getInt("ID"));
+                    fecha.setTime(rs.getDate("FECHA"));
+                    rentaConsultada.setFechaHora(fecha);
                 }
             }
 
@@ -57,32 +51,12 @@ public class RepositorioRenta {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
         }
+        rentaConsultada.setLineas(lineasPorRenta(numeroRenta));
+        rentaConsultada.setPagoBilletes(billetesPorRenta(numeroRenta));
+
         return rentaConsultada;
     }
-
-    public void buildRenta (ResultSet rs, Renta renta) throws SQLException {
-        Calendar calendar = Calendar.getInstance();
-        Billete billeteRenta;
-        renta.setNumero(rs.getInt("IDRENTA"));
-        calendar.setTime(rs.getDate("FECHA"));
-        //Linea
-        renta.getLineas().add(buildLinea(rs));
-        //billete
-        billeteRenta = builBillete(rs);
-        //Verificar que le billete y el monto ya existen para no insertar el mismo
-
-        if (renta.getPagoBilletes().size() == 0){
-            renta.getPagoBilletes().add(billeteRenta);
-        }
-        for (Billete bll : renta.getPagoBilletes()){
-            if (!(bll.getDenominacion().equals(billeteRenta.getDenominacion()))){
-                renta.getPagoBilletes().add(billeteRenta);
-            }
-        }
-
-        renta.setFechaHora(calendar);
-    }
-    public Linea buildLinea (ResultSet rs) throws SQLException {
+    public Linea buildLineaPorRenta (ResultSet rs) throws SQLException {
         Carro carro = new Carro(
                 rs.getString("PLACA"),
                 rs.getInt("UNIDADESDISPONIBLES"),
@@ -91,16 +65,70 @@ public class RepositorioRenta {
         );
         return new Linea(
                 rs.getInt("NUMERO"),
-                rs.getInt("CANTIDADCARRO"),
+                rs.getInt("CANTIDAD"),
                 carro
         );
     }
 
-    public Billete builBillete (ResultSet rs) throws SQLException {
+    public ArrayList<Linea> lineasPorRenta (Integer numeroRenta){
+        ArrayList <Linea> lineasRenta = new ArrayList<>();
+        StringBuilder SQL =
+                new StringBuilder("select\n" +
+                        "    c.PLACA,\n" +
+                        "    c.UNIDADESDISPONIBLES,\n" +
+                        "    c.PRECIO,\n" +
+                        "    c.PUESTOS,\n" +
+                        "    l.NUMERO,\n" +
+                        "    l.CANTIDAD\n" +
+                        "from linea l, carro c\n" +
+                        "where c.ID = l.CARROID and l.RENTAID = ?");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            ps.setInt(1, numeroRenta);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lineasRenta.add(buildLineaPorRenta(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return lineasRenta;
+    }
+
+    public ArrayList<Billete> billetesPorRenta (Integer numeroRenta){
+        ArrayList<Billete> billetes = new ArrayList<>();
+        StringBuilder SQL =
+                new StringBuilder("select\n" +
+                        "    b.DENOMINACION,\n" +
+                        "    c.CANTIDAD\n" +
+                        "from BILLETE b, CANTIDADPORBILLETE c\n" +
+                        "where b.ID = c.BILLETEID and c.RENTAID = ?");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            ps.setInt(1, numeroRenta);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    billetes.add(buildBilletePorRenta(rs));
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return billetes;
+    }
+
+    public Billete buildBilletePorRenta (ResultSet rs) throws SQLException {
         return new Billete(
-                rs.getInt("CANTIDADBILLETE"),
+                rs.getInt("CANTIDAD"),
                 rs.getInt("DENOMINACION")
         );
-
     }
+
 }
