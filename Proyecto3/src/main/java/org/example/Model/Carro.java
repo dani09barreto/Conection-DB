@@ -17,6 +17,13 @@ public class Carro {
         this.puestos = puestos;
     }
 
+    public Carro(String placa, Integer unidadesDisponibles, Integer precio, Integer puestos) {
+        Placa = placa;
+        this.unidadesDisponibles = unidadesDisponibles;
+        this.precio = precio;
+        this.puestos = puestos;
+    }
+
     public Integer getID() {
         return ID;
     }
@@ -59,5 +66,16 @@ public class Carro {
 
     public void calcularValor (){
 
+    }
+
+    @Override
+    public String toString() {
+        return "Carro{" +
+                "ID=" + ID +
+                ", Placa='" + Placa + '\'' +
+                ", unidadesDisponibles=" + unidadesDisponibles +
+                ", precio=" + precio +
+                ", puestos=" + puestos +
+                '}';
     }
 }

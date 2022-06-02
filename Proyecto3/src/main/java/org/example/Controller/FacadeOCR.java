@@ -13,31 +13,26 @@ import java.util.Objects;
 public class FacadeOCR {
     private Integer numeroLinea;
     private Renta rentaActual;
-
-    private Integer total;
-
-    private Integer numeroCarro=0;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
 
     private RepositorioBillete billete = new RepositorioBillete();
 
-    public DTOResumen respuestaRenta (Renta renta) throws ErrorPago {
+    public DTOResumen respuestaRenta (Renta renta) {
         DTOResumen resumen = new DTOResumen();
         Integer totalRenta = 0;
         Integer saldoBilletes = 0;
         Double descuento;
         Integer lineasRenta;
         resumen.setMensajeError(null);
+        resumen.setFecha(renta.getFechaHora());
         resumen.setLineas(renta.getLineas());
         if(renta.getLineas().size()==0){
             resumen.setTotalRenta(0);
             resumen.setVueltas(0);
             return resumen;
         }
-        for (Linea ln : renta.getLineas()){
-            totalRenta += ln.getSubTotal();
-        }
+        totalRenta = valorTotalRenta(renta);
         lineasRenta = this.carroContro.cantidadCarrosRenta(renta.getNumero());
         descuento = this.carroContro.calcularDescuento(lineasRenta);
         resumen.setTotalRenta((int) (totalRenta - totalRenta*descuento));
@@ -46,11 +41,6 @@ public class FacadeOCR {
             saldoBilletes += (bll.getDenominacion()*bll.getCantidad());
         }
         resumen.setSaldoBilletes(saldoBilletes);
-        if (renta.getPagoBilletes().size() != 0){
-            if (saldoBilletes < totalRenta)
-                throw new ErrorPago("La cantidad de billetes ingresados no es suficiente");
-            resumen.setVueltas(saldoBilletes-totalRenta);
-        }
         return resumen;
     }
 
@@ -61,7 +51,7 @@ public class FacadeOCR {
             resumen.setMensajeError("No hay carros en la base de datos");
             return null;
         }
-        int afectadas = rentaContro.insertarRenta(resumen, dtoRenta.getFechaHora());
+        rentaContro.insertarRenta(resumen, dtoRenta.getFechaHora());
         return resumen;
     }
 
@@ -153,9 +143,20 @@ public class FacadeOCR {
     public DTOResumen terminarRenta (){
         return null;
     }
-    public DTOResumen consultarRenta (Renta dtoRenta){
-        return null;
+
+   public DTOResumen consultarRenta (Renta dtoRenta){
+        Renta rentaConsultada = rentaContro.ConsultarRenta(dtoRenta.getNumero());
+        DTOResumen resumen;
+        if (rentaConsultada.getNumero() == null){
+            resumen = respuestaRenta(rentaConsultada);
+            resumen.setMensajeError("La renta consultada no existe");
+            return resumen;
+        }
+        System.out.println(rentaConsultada.toString());
+        resumen = respuestaRenta(rentaConsultada);
+        return resumen;
     }
+
     public DTOReporte consultarAcomulados (){
         return null;
     }
@@ -195,5 +196,16 @@ public class FacadeOCR {
         this.numeroLinea = 0;
         this.rentaActual.setFechaHora(fecha);
         return rentaActual;
+    }
+    /*
+    * Funcion que calcula el total de una renta, para terminar renta es necesario mandar
+    * la renta actual (this.rentaActual)
+    * */
+    public Integer valorTotalRenta (Renta renta){
+        Integer totalRenta = 0;
+        for (Linea ln : renta.getLineas()){
+            totalRenta += ln.getSubTotal();
+        }
+        return totalRenta;
     }
 }

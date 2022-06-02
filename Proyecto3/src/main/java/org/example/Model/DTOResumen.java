@@ -4,6 +4,7 @@ import org.example.Utils.AlertUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DTOResumen {
     private String mensajeError;
@@ -11,6 +12,7 @@ public class DTOResumen {
     private Integer totalRenta = 0;
     private Integer saldoBilletes = 0;
     private Integer vueltas = 0;
+    private Calendar fecha;
 
 
     public String getMensajeError() {
@@ -51,5 +53,13 @@ public class DTOResumen {
 
     public void setVueltas(Integer vueltas) {
         this.vueltas = vueltas;
+    }
+
+    public Calendar getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
     }
 }

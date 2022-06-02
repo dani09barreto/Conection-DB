@@ -48,4 +48,14 @@ public class Billete {
     public void setTotal(Integer total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "Billete{" +
+                "id=" + id +
+                ", cantidad=" + cantidad +
+                ", denominacion=" + denominacion +
+                ", total=" + total +
+                '}';
+    }
 }

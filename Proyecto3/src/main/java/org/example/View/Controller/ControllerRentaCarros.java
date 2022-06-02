@@ -7,10 +7,7 @@ import javafx.scene.control.*;
 import org.example.Controller.FacadeOCR;
 import org.example.Model.*;
 import org.example.Utils.AlertUtils;
-import org.example.Utils.Exeptions.ErrorAgregarBillete;
-import org.example.Utils.Exeptions.ErrorAgregarLinea;
-import org.example.Utils.Exeptions.ErrorAgregarRenta;
-import org.example.Utils.Exeptions.ErrorPago;
+import org.example.Utils.Exeptions.*;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -45,6 +42,12 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     private TextField cantidadCarro;
+
+    @FXML
+    private Button btnConsultar;
+
+    @FXML
+    private TextField numRenta;
 
     @FXML
     private ComboBox<String> carroXPuestos;
@@ -84,6 +87,12 @@ public class ControllerRentaCarros implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        for (Carro c : facadeOCR.consultarCarros()){
+            carroXPuestos.getItems().add(c.getPlaca());
+        }
+        for (Billete b : facadeOCR.consultarBilletes()){
+            denominaciones.getItems().add(b.getDenominacion());
+        }
     }
 
     @FXML
@@ -98,7 +107,6 @@ public class ControllerRentaCarros implements Initializable {
             resumen = facadeOCR.agregarBillete(billete);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarBillete(resumen.getMensajeError());
-            //billete = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
             System.out.println();
             renderTable(resumen);
 
@@ -115,8 +123,6 @@ public class ControllerRentaCarros implements Initializable {
     @FXML
     void agregarLinea(ActionEvent event) {
         DTOResumen resumen;
-        Double descuento;
-        Integer lineas;
         try{
             Linea linea = new Linea(
                     Integer.parseInt(cantidadCarro.getText()),
@@ -125,7 +131,6 @@ public class ControllerRentaCarros implements Initializable {
             resumen = facadeOCR.agregarLinea(linea);
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
-            lineas = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
             System.out.println();
             renderTable(resumen);
 
@@ -143,13 +148,10 @@ public class ControllerRentaCarros implements Initializable {
     @FXML
     void eliminarLinea(ActionEvent event) {
         DTOResumen resumen;
-        Double descuento;
-        Integer lineas;
         try{
             resumen = facadeOCR.eliminarLinea(this.tablaLinea.getSelectionModel().getSelectedItem());
             if (resumen.getMensajeError() !=  null)
                 throw new ErrorAgregarLinea(resumen.getMensajeError());
-            lineas = facadeOCR.getCarroContro().cantidadCarrosRenta(numeroRenta);
             System.out.println();
             renderTable(resumen);
 
@@ -165,7 +167,6 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void generarReporte(ActionEvent event) {
-
     }
 
     @FXML
@@ -191,13 +192,6 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         this.numeroRenta ++;
         this.clearScreen();
-        for (Carro c : facadeOCR.consultarCarros()){
-            carroXPuestos.getItems().add(c.getPlaca());
-        }
-        for (Billete b : facadeOCR.consultarBilletes()){
-            denominaciones.getItems().add(b.getDenominacion());
-        }
-
         try{
             Calendar fecha = setFecha();
             Renta renta = this.facadeOCR.buildNuevaRenta(numeroRenta, new Renta(),fecha);
@@ -219,12 +213,31 @@ public class ControllerRentaCarros implements Initializable {
     void terminarRenta(ActionEvent event) {
 
     }
+
+  @FXML
+    void consultarRenta(ActionEvent event) {
+        DTOResumen resumen;
+        Renta renta = new Renta();
+        renta.setNumero(Integer.parseInt(numRenta.getText()));
+        try{
+            resumen = facadeOCR.consultarRenta(renta);
+            if (resumen.getMensajeError() != null){
+                throw new ErrorRentaNoExiste(resumen.getMensajeError());
+            }
+            renderTable(resumen);
+        }catch (ErrorRentaNoExiste ex){
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
+
+    }
+
     public Calendar setFecha (){
-        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
         Calendar fechaActual = Calendar.getInstance();
         this.fecha.setText(Fecha.format(fechaActual.getTime()));
         return fechaActual;
     }
+
     public void clearTable (){
         tablaLinea.getItems().clear();
         totalRenta.setText("0");
@@ -233,16 +246,18 @@ public class ControllerRentaCarros implements Initializable {
     public void clearScreen(){
         tablaLinea.getItems().clear();
         totalRenta.setText("0");
-        //carroXPuestos.getSelectionModel().clearSelection();
-       // denominaciones.getItems().clear();
-        cantidadCarro.setText("0");
-        cantidadBilletes.setText("0");
+        cantidadCarro.setText("1");
+        cantidadBilletes.setText("1");
         saldoBilletes.setText("0");
     }
+
     public void renderTable (DTOResumen resumen){
         clearTable();
+        SimpleDateFormat Fecha = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss aa");
         tablaLinea.getItems().addAll(resumen.getLineas());
         totalRenta.setText(String.valueOf(resumen.getTotalRenta()));
         saldoBilletes.setText(String.valueOf(resumen.getSaldoBilletes()));
+        vueltas.setText(String.valueOf(resumen.getVueltas()));
+        fecha.setText(Fecha.format(resumen.getFecha().getTime()));
     }
 }

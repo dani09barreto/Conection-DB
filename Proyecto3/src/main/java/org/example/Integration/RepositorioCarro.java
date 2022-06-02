@@ -153,6 +153,7 @@ public class RepositorioCarro {
         }
         return afectadas;
     }
+
     public int eliminar(Linea linea, Integer IDRenta) {
         int afectadas = 0;
         String SQL = "DELETE FROM Linea WHERE Numero = ?";
@@ -194,6 +195,7 @@ public class RepositorioCarro {
         }
         return filas;
     }
+
     public Double calcularDescuento ( Integer cantidad){
         StringBuilder SQL =
                 new StringBuilder("select r.descuento\n" +
