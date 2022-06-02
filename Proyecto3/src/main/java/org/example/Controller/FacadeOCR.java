@@ -6,6 +6,7 @@ import org.example.Integration.RepositorioRenta;
 import org.example.Model.*;
 import org.example.Utils.Exeptions.ErrorPago;
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -145,8 +146,12 @@ public class FacadeOCR {
             resumen.setMensajeError("No es posible pagar la renta, inserta mas billetes");
             return resumen;
         }
+        for (Linea ln : this.rentaActual.getLineas()){
+            Integer nuevasExistencias = ln.getCarroRentado().getUnidadesDisponibles() - ln.getCantidad();
+            carroContro.updateExistencias(nuevasExistencias, ln.getCarroRentado().getPlaca());
+        }
         resumen = respuestaRenta(this.rentaActual);
-        return null;
+        return resumen;
     }
 
    public DTOResumen consultarRenta (Renta dtoRenta){
@@ -176,18 +181,6 @@ public class FacadeOCR {
 
     public RepositorioCarro getCarroContro() {
         return carroContro;
-    }
-
-    public RepositorioRenta getRentaContro() {
-        return rentaContro;
-    }
-
-    public Renta getRentaActual() {
-        return rentaActual;
-    }
-
-    public RepositorioBillete getBilleteContro() {
-        return billeteContro;
     }
 
     /*

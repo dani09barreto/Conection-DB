@@ -220,8 +220,8 @@ public class RepositorioCarro {
         return null;
     }
 
-    public void updateExistencias (){
-        String SQL = "update Carro set cantidad = ? where ID = ?";
+    public void updateExistencias (Integer unidades, String placa){
+        String SQL = "update Carro set UNIDADESDISPONIBLES = ? where PLACA = ?";
         try (
                 Connection conex = DriverManager.getConnection(
                         Constantes.THINCONN,
@@ -229,9 +229,9 @@ public class RepositorioCarro {
                         Constantes.PASSWORD);
                 PreparedStatement ps = conex.prepareStatement(SQL);) {
 
-            ps.setInt(1, cantidad);
-            ps.setInt(2, IDLinea);
-            afectadas = ps.executeUpdate();
+            ps.setInt(1, unidades);
+            ps.setString(2, placa);
+            ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
