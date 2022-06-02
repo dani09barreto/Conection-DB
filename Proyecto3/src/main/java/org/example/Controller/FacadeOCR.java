@@ -120,30 +120,38 @@ public class FacadeOCR {
             return resumen;
         }
         if((billeteTemp= billeteContro.existeBillete(dtoBillete.getDenominacion())) != null){
-            Integer cantidad = billeteTemp.getCantidad();
+
             dtoBillete.setId(billeteContro.existeIdBillete(billeteTemp));
+
 
             System.out.println("id "+ dtoBillete.getId());
             for (Billete bl : this.rentaActual.getPagoBilletes()){
-                if(bl.getId()==billeteTemp.getId()){
-                    billeteContro.updateBillete(cantidad,billeteTemp.getId());
+                if(bl.getId() == dtoBillete.getId()){
+                    System.out.println(dtoBillete.getCantidad() );
+                    System.out.println(bl.getCantidad());
+                    System.out.println(billeteTemp.getCantidad());
+                    Integer cantidad= dtoBillete.getCantidad()+bl.getCantidad();
+                    System.out.println("cantidad: "+ cantidad);
+                    //System.out.println(cantidad);
+                    billeteContro.updateBillete(cantidad,dtoBillete.getId());
                     int total =(cantidad*bl.getDenominacion());
                     bl.setCantidad(cantidad);
                     bl.setTotal(total);
+                    resumen=respuestaRenta(this.rentaActual);
+                    return resumen;
 
                 }
             }
+        billeteContro.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+        dtoBillete.setTotal(dtoBillete.getCantidad()* dtoBillete.getDenominacion());
+        this.rentaActual.getPagoBilletes().add(dtoBillete);
+        resumen=respuestaRenta(this.rentaActual);
+        return resumen;
 
-            billeteContro.insertarBillete(dtoBillete,this.rentaActual.getNumero());
-            dtoBillete.setTotal(dtoBillete.getCantidad()* dtoBillete.getDenominacion());
-            this.rentaActual.getPagoBilletes().add(dtoBillete);
-            resumen=respuestaRenta(this.rentaActual);
-            return resumen;
 
         }
 
         return null;
-
     }
 
     public DTOResumen terminarRenta (){
