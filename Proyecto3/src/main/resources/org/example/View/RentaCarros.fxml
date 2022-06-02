@@ -96,7 +96,7 @@
                            </font>
                         </Label>
                         <Button fx:id="Button_TerminarRenta" layoutX="250.0" layoutY="477.0" mnemonicParsing="false" onAction="#terminarRenta" prefHeight="26.0" prefWidth="103.0" style="-fx-background-color: #ffcbdb;" text="Terminar Renta" />
-                        <Label fx:id="saldoBilletes" layoutX="726.0" layoutY="419.0" text="30000">
+                        <Label fx:id="saldoBilletes" layoutX="726.0" layoutY="419.0" text="0">
                            <font>
                               <Font size="13.0" />
                            </font>
