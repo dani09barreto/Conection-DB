@@ -100,9 +100,9 @@ public class ControllerRentaCarros implements Initializable {
         DTOResumen resumen;
         Integer denominacion= denominaciones.getSelectionModel().getSelectedItem();
         Billete billete=new Billete(
-                Integer.parseInt(cantidadBilletes.getText()),denominacion);
-
-
+                Integer.parseInt(cantidadBilletes.getText()),
+                denominacion
+        );
         try{
             resumen = facadeOCR.agregarBillete(billete);
             if (resumen.getMensajeError() !=  null)
@@ -211,7 +211,16 @@ public class ControllerRentaCarros implements Initializable {
 
     @FXML
     void terminarRenta(ActionEvent event) {
-
+        DTOResumen resumen;
+        try{
+            resumen = facadeOCR.terminarRenta();
+            if (resumen.getMensajeError() != null){
+                throw new ErrorPago(resumen.getMensajeError());
+            }
+            renderVueltas(resumen);
+        } catch (ErrorPago ex) {
+            AlertUtils.alertError("Error", ex.getMessage(), "");
+        }
     }
 
   @FXML
@@ -241,6 +250,7 @@ public class ControllerRentaCarros implements Initializable {
     public void clearTable (){
         tablaLinea.getItems().clear();
         totalRenta.setText("0");
+        vueltas.setText("0");
     }
 
     public void clearScreen(){
@@ -249,6 +259,7 @@ public class ControllerRentaCarros implements Initializable {
         cantidadCarro.setText("1");
         cantidadBilletes.setText("1");
         saldoBilletes.setText("0");
+        vueltas.setText("0");
     }
 
     public void renderTable (DTOResumen resumen){
@@ -257,7 +268,9 @@ public class ControllerRentaCarros implements Initializable {
         tablaLinea.getItems().addAll(resumen.getLineas());
         totalRenta.setText(String.valueOf(resumen.getTotalRenta()));
         saldoBilletes.setText(String.valueOf(resumen.getSaldoBilletes()));
-        vueltas.setText(String.valueOf(resumen.getVueltas()));
         fecha.setText(Fecha.format(resumen.getFecha().getTime()));
+    }
+    public void renderVueltas (DTOResumen resumen){
+        vueltas.setText(String.valueOf(resumen.getVueltas()));
     }
 }
