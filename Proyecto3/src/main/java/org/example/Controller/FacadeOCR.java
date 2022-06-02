@@ -122,19 +122,28 @@ public class FacadeOCR {
         if((billeteTemp= billeteContro.existeBillete(dtoBillete.getDenominacion())) != null){
             Integer cantidad = billeteTemp.getCantidad();
             dtoBillete.setId(billeteContro.existeIdBillete(billeteTemp));
+
             System.out.println("id "+ dtoBillete.getId());
             for (Billete bl : this.rentaActual.getPagoBilletes()){
-                int total =(cantidad*bl.getDenominacion());
-                bl.setCantidad(cantidad);
-                bl.setTotal(total);
+                if(bl.getId()==billeteTemp.getId()){
+                    billeteContro.updateBillete(cantidad,billeteTemp.getId());
+                    int total =(cantidad*bl.getDenominacion());
+                    bl.setCantidad(cantidad);
+                    bl.setTotal(total);
+
+                }
             }
+
             billeteContro.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+            dtoBillete.setTotal(dtoBillete.getCantidad()* dtoBillete.getDenominacion());
             this.rentaActual.getPagoBilletes().add(dtoBillete);
             resumen=respuestaRenta(this.rentaActual);
             return resumen;
+
         }
 
-      return null;
+        return null;
+
     }
 
     public DTOResumen terminarRenta (){
