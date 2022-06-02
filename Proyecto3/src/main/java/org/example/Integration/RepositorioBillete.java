@@ -130,6 +130,25 @@ public class RepositorioBillete{
         }
         return null;
     }
+    public Integer updateBillete (Integer cantidad, Integer IDBillete){
+        int afectadas = 0;
+        String SQL = "update cantidadporbillete set cantidad = ? where billeteid= ?";
+        try (
+                Connection conex = DriverManager.getConnection(
+                        Constantes.THINCONN,
+                        Constantes.USERNAME,
+                        Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL);) {
+
+            ps.setInt(1, cantidad);
+            ps.setInt(2, IDBillete);
+            afectadas = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return afectadas;
+    }
 }
 
 
