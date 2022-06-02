@@ -1,8 +1,5 @@
 package org.example.Model;
 
-import org.example.Utils.AlertUtils;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -11,7 +8,7 @@ public class DTOResumen {
     private ArrayList <Linea> lineas;
     private Integer totalRenta = 0;
     private Integer saldoBilletes = 0;
-    private Integer vueltas = 0;
+    private Double vueltas = 0.0;
     private Calendar fecha;
 
 
@@ -47,11 +44,11 @@ public class DTOResumen {
         this.saldoBilletes = saldoBilletes;
     }
 
-    public Integer getVueltas() {
+    public Double getVueltas() {
         return vueltas;
     }
 
-    public void setVueltas(Integer vueltas) {
+    public void setVueltas(Double vueltas) {
         this.vueltas = vueltas;
     }
 

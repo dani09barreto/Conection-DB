@@ -17,6 +17,7 @@ public class FacadeOCR {
     private RepositorioRenta rentaContro = new RepositorioRenta();
     private RepositorioBillete billeteContro = new RepositorioBillete();
 
+
     public DTOResumen respuestaRenta (Renta renta) {
         DTOResumen resumen = new DTOResumen();
         Integer totalRenta = 0;
@@ -28,7 +29,7 @@ public class FacadeOCR {
         resumen.setLineas(renta.getLineas());
         if(renta.getLineas().size()==0){
             resumen.setTotalRenta(0);
-            resumen.setVueltas(0);
+            resumen.setVueltas(0.0);
             return resumen;
         }
         totalRenta = valorTotalRenta(renta);
@@ -37,7 +38,6 @@ public class FacadeOCR {
             saldoBilletes += (bll.getDenominacion()*bll.getCantidad());
         }
         resumen.setSaldoBilletes(saldoBilletes);
-        resumen.setVueltas(saldoBilletes - totalRenta);
         return resumen;
     }
 
@@ -168,6 +168,7 @@ public class FacadeOCR {
             carroContro.updateExistencias(nuevasExistencias, ln.getCarroRentado().getPlaca());
         }
         resumen = respuestaRenta(this.rentaActual);
+        vueltasRenta(this.rentaActual, resumen);
         return resumen;
     }
 
@@ -225,5 +226,15 @@ public class FacadeOCR {
             totalRenta += ln.getSubTotal();
         }
         return (int) (totalRenta - (totalRenta*descuento));
+    }
+
+    private Double vueltasRenta(Renta rentaActual, DTOResumen resumen){
+        Integer totalRenta = valorTotalRenta(rentaActual);
+        Integer totalBilletesRenta = billeteContro.totalBilletesPorRenta(rentaActual.getNumero());
+        Double vueltas = Double.valueOf(totalBilletesRenta - totalRenta);
+        if (vueltas > 0){
+            resumen.setVueltas(vueltas);
+        }
+        return vueltas;
     }
 }
