@@ -8,15 +8,13 @@ import org.example.Utils.Exeptions.ErrorPago;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 public class FacadeOCR {
     private Integer numeroLinea;
     private Renta rentaActual;
     private RepositorioCarro carroContro = new RepositorioCarro();
     private RepositorioRenta rentaContro = new RepositorioRenta();
-
-    private RepositorioBillete billete = new RepositorioBillete();
+    private RepositorioBillete billeteContro = new RepositorioBillete();
 
     public DTOResumen respuestaRenta (Renta renta) {
         DTOResumen resumen = new DTOResumen();
@@ -33,14 +31,12 @@ public class FacadeOCR {
             return resumen;
         }
         totalRenta = valorTotalRenta(renta);
-        lineasRenta = this.carroContro.cantidadCarrosRenta(renta.getNumero());
-        descuento = this.carroContro.calcularDescuento(lineasRenta);
-        resumen.setTotalRenta((int) (totalRenta - totalRenta*descuento));
-
+        resumen.setTotalRenta(totalRenta);
         for (Billete bll: renta.getPagoBilletes()){
             saldoBilletes += (bll.getDenominacion()*bll.getCantidad());
         }
         resumen.setSaldoBilletes(saldoBilletes);
+        resumen.setVueltas(saldoBilletes - totalRenta);
         return resumen;
     }
 
@@ -117,21 +113,21 @@ public class FacadeOCR {
         DTOResumen resumen;
         Billete billeteTemp;
 
-        if (billete.existeBillete(dtoBillete.getDenominacion()) == null){
+        if (billeteContro.existeBillete(dtoBillete.getDenominacion()) == null){
             resumen = respuestaRenta(this.rentaActual);
             resumen.setMensajeError("El billete seleccionado no se encuentra en la Base de Datos");
             return resumen;
         }
-        if((billeteTemp=billete.existeBillete(dtoBillete.getDenominacion())) != null){
+        if((billeteTemp= billeteContro.existeBillete(dtoBillete.getDenominacion())) != null){
             Integer cantidad = billeteTemp.getCantidad();
-            dtoBillete.setId(billete.existeIdBillete(billeteTemp));
+            dtoBillete.setId(billeteContro.existeIdBillete(billeteTemp));
             System.out.println("id "+ dtoBillete.getId());
             for (Billete bl : this.rentaActual.getPagoBilletes()){
                 int total =(cantidad*bl.getDenominacion());
                 bl.setCantidad(cantidad);
                 bl.setTotal(total);
             }
-            billete.insertarBillete(dtoBillete,this.rentaActual.getNumero());
+            billeteContro.insertarBillete(dtoBillete,this.rentaActual.getNumero());
             this.rentaActual.getPagoBilletes().add(dtoBillete);
             resumen=respuestaRenta(this.rentaActual);
             return resumen;
@@ -141,6 +137,15 @@ public class FacadeOCR {
     }
 
     public DTOResumen terminarRenta (){
+        DTOResumen resumen;
+        Integer totalRenta = valorTotalRenta(this.rentaActual);
+        Integer totalBilletesRenta = billeteContro.totalBilletesPorRenta(this.rentaActual.getNumero());
+        if (totalBilletesRenta < totalRenta){
+            resumen = respuestaRenta(this.rentaActual);
+            resumen.setMensajeError("No es posible pagar la renta, inserta mas billetes");
+            return resumen;
+        }
+        resumen = respuestaRenta(this.rentaActual);
         return null;
     }
 
@@ -166,7 +171,7 @@ public class FacadeOCR {
     }
 
     public ArrayList <Billete> consultarBilletes (){
-        return this.billete.consultarTiposBillete();
+        return this.billeteContro.consultarTiposBillete();
     }
 
     public RepositorioCarro getCarroContro() {
@@ -181,8 +186,8 @@ public class FacadeOCR {
         return rentaActual;
     }
 
-    public RepositorioBillete getBillete() {
-        return billete;
+    public RepositorioBillete getBilleteContro() {
+        return billeteContro;
     }
 
     /*
@@ -201,11 +206,14 @@ public class FacadeOCR {
     * Funcion que calcula el total de una renta, para terminar renta es necesario mandar
     * la renta actual (this.rentaActual)
     * */
-    public Integer valorTotalRenta (Renta renta){
+    public int valorTotalRenta (Renta renta){
         Integer totalRenta = 0;
+        Integer lineasRenta = this.carroContro.cantidadCarrosRenta(renta.getNumero());
+        Double descuento = this.carroContro.calcularDescuento(lineasRenta);
+
         for (Linea ln : renta.getLineas()){
             totalRenta += ln.getSubTotal();
         }
-        return totalRenta;
+        return (int) (totalRenta - (totalRenta*descuento));
     }
 }

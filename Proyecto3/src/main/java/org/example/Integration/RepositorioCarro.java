@@ -219,4 +219,22 @@ public class RepositorioCarro {
         }
         return null;
     }
+
+    public void updateExistencias (){
+        String SQL = "update Carro set cantidad = ? where ID = ?";
+        try (
+                Connection conex = DriverManager.getConnection(
+                        Constantes.THINCONN,
+                        Constantes.USERNAME,
+                        Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL);) {
+
+            ps.setInt(1, cantidad);
+            ps.setInt(2, IDLinea);
+            afectadas = ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+    }
 }

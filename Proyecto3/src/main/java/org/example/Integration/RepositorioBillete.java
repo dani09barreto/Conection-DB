@@ -33,7 +33,6 @@ public class RepositorioBillete{
         );
     }
 
-
     public int existeIdBillete(Billete billete){
         int id;
         StringBuilder SQL =
@@ -82,6 +81,7 @@ public class RepositorioBillete{
         return null;
 
     }
+
     public int insertarBillete(Billete billete,Integer IDRenta ) {
         int afectadas = 0;
         String SQL = "INSERT INTO CantidadPorbillete(Billeteid, Rentaid, cantidad) VALUES (?, ?, ?)";
@@ -101,6 +101,34 @@ public class RepositorioBillete{
             ex.printStackTrace();
         }
         return afectadas;
+    }
+
+    public Integer totalBilletesPorRenta (Integer numeroRenta){
+        StringBuilder SQL =
+                new StringBuilder("select \n" +
+                        "    sum (valor) as total\n" +
+                        "from (\n" +
+                        "         select\n" +
+                        "                 l.DENOMINACION*cpb.CANTIDAD as valor\n" +
+                        "         from BILLETE l, CANTIDADPORBILLETE cpb, RENTA r\n" +
+                        "         where l.ID = cpb.BILLETEID and r.ID = cpb.RENTAID and r.ID = ?\n" +
+                        "     )");
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            //se asignan los valores a los parametros
+            ps.setInt(1, numeroRenta);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("TOTAL");
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
 

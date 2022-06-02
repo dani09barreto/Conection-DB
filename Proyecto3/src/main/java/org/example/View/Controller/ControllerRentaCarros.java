@@ -241,6 +241,7 @@ public class ControllerRentaCarros implements Initializable {
     public void clearTable (){
         tablaLinea.getItems().clear();
         totalRenta.setText("0");
+        vueltas.setText("0");
     }
 
     public void clearScreen(){
@@ -259,5 +260,6 @@ public class ControllerRentaCarros implements Initializable {
         saldoBilletes.setText(String.valueOf(resumen.getSaldoBilletes()));
         vueltas.setText(String.valueOf(resumen.getVueltas()));
         fecha.setText(Fecha.format(resumen.getFecha().getTime()));
+        vueltas.setText(String.valueOf(resumen.getVueltas()));
     }
 }
