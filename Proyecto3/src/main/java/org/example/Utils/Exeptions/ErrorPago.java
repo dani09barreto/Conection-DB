@@ -1,4 +1,4 @@
-package org.example.View;
+package org.example.Utils.Exeptions;
 
 /*
  * @Integrantes:
@@ -9,8 +9,8 @@ package org.example.View;
  * Sebastian Martinez
  * Alvaro Betancour
  * */
-public class Launcher {
-    public static void main(String[] args) {
-        App.main(args);
+public class ErrorPago extends Exception{
+    public ErrorPago(String msg){
+        super (msg);
     }
 }
