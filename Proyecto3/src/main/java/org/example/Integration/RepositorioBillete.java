@@ -6,6 +6,15 @@ import org.example.Model.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class RepositorioBillete{
     public ArrayList<Billete> consultarTiposBillete(){
         ArrayList <Billete> billetes = new ArrayList<>();

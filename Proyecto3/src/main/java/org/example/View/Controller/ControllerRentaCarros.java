@@ -2,17 +2,32 @@ package org.example.View.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.Controller.FacadeOCR;
 import org.example.Model.*;
 import org.example.Utils.AlertUtils;
 import org.example.Utils.Exeptions.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+
+/*
+* @Integrantes:
+* Daniel Barreto
+* Angela Ospina
+* Natali Gaona
+* Laura Jimenez
+* Sebastian Martinez
+* Alvaro Betancour
+* */
 
 public class ControllerRentaCarros implements Initializable {
 
@@ -93,12 +108,13 @@ public class ControllerRentaCarros implements Initializable {
         for (Billete b : facadeOCR.consultarBilletes()){
             denominaciones.getItems().add(b.getDenominacion());
         }
+        AlertUtils.alertInformation("Informacion", "Antes de agregar una linea oprime el boton Nueva Renta", "");
     }
 
     @FXML
     void agregarBillete(ActionEvent event) {
         DTOResumen resumen;
-        Integer denominacion= denominaciones.getSelectionModel().getSelectedItem();
+        Integer denominacion = denominaciones.getSelectionModel().getSelectedItem();
         Billete billete=new Billete(
                 Integer.parseInt(cantidadBilletes.getText()),
                 denominacion
@@ -166,7 +182,20 @@ public class ControllerRentaCarros implements Initializable {
     }
 
     @FXML
-    void generarReporte(ActionEvent event) {
+    void generarReporte(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(ControllerReporte.class.getResource("../Reporte.fxml"));
+        Parent root = loader.load();
+        ControllerReporte ViewControllerReporte = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Reporte");
+        stage.setScene(scene);
+        stage.setMaximized(false);
+        stage.setResizable(false);
+        stage.show();
+        stage.show();
     }
 
     @FXML
@@ -218,6 +247,7 @@ public class ControllerRentaCarros implements Initializable {
                 throw new ErrorPago(resumen.getMensajeError());
             }
             renderVueltas(resumen);
+            AlertUtils.alertConfirmation("Renta Finalizada", "Su renta ha sido finalizada", "");
         } catch (ErrorPago ex) {
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }

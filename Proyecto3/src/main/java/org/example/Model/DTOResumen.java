@@ -3,6 +3,15 @@ package org.example.Model;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class DTOResumen {
     private String mensajeError;
     private ArrayList <Linea> lineas;

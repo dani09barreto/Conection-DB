@@ -13,7 +13,15 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
-
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class AlertUtils {
     public static void alertInformation(String titulo, String header, String mensaje){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

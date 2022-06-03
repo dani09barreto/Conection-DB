@@ -7,6 +7,15 @@ import org.example.Model.Linea;
 import java.sql.*;
 import java.util.ArrayList;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class RepositorioCarro {
 
     public ArrayList <Carro> consultarCarros (){
@@ -185,6 +194,7 @@ public class RepositorioCarro {
             //se asignan los valores a los parametros
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+
                     filas ++;
                 }
             }

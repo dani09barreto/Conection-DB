@@ -2,6 +2,15 @@ package org.example.Model;
 
 import java.math.BigDecimal;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class Carro {
     private Integer ID;
     private String Placa;
