@@ -14,6 +14,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
+/*
+* @Integrantes:
+* Daniel Barreto
+* Angela Ospina
+* Natali Gaona
+* Laura Jimenez
+* Sebastian Martinez
+* Alvaro Betancour
+* */
+
 public class ControllerRentaCarros implements Initializable {
 
     private final FacadeOCR facadeOCR = new FacadeOCR();
@@ -218,6 +228,7 @@ public class ControllerRentaCarros implements Initializable {
                 throw new ErrorPago(resumen.getMensajeError());
             }
             renderVueltas(resumen);
+            AlertUtils.alertConfirmation("Renta Finalizada", "Su renta ha sido finalizada", "");
         } catch (ErrorPago ex) {
             AlertUtils.alertError("Error", ex.getMessage(), "");
         }

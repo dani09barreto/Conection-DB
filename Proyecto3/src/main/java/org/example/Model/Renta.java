@@ -3,6 +3,15 @@ package org.example.Model;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class Renta {
     private Integer ID;
     private Integer numero;

@@ -7,6 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class App extends Application {
     private final static String ICON_NAME = "img/Icon.png";
     private final static String MAIN_FXML_NAME = "RentaCarros.fxml";

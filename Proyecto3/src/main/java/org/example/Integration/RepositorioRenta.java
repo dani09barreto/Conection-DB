@@ -7,6 +7,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class RepositorioRenta {
 
     public int insertarRenta(DTOResumen resumen, Calendar fecha) {
@@ -56,6 +65,7 @@ public class RepositorioRenta {
 
         return rentaConsultada;
     }
+
     public Linea buildLineaPorRenta (ResultSet rs) throws SQLException {
         Carro carro = new Carro(
                 rs.getString("PLACA"),
@@ -130,5 +140,4 @@ public class RepositorioRenta {
                 rs.getInt("DENOMINACION")
         );
     }
-
 }

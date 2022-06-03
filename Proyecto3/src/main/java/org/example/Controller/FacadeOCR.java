@@ -10,6 +10,15 @@ import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/*
+ * @Integrantes:
+ * Daniel Barreto
+ * Angela Ospina
+ * Natali Gaona
+ * Laura Jimenez
+ * Sebastian Martinez
+ * Alvaro Betancour
+ * */
 public class FacadeOCR {
     private Integer numeroLinea;
     private Renta rentaActual;
