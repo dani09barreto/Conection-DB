@@ -140,4 +140,34 @@ public class RepositorioRenta {
                 rs.getInt("DENOMINACION")
         );
     }
+
+    private DTOReporte buildDTOReporte(ResultSet rs) throws SQLException {
+        String calendar = rs.getString("FECHA");
+        return new DTOReporte (
+                calendar,
+                rs.getInt("CANTIDAD")
+        );
+    }
+    public ArrayList<DTOReporte> ConsultarAcumulados() {
+        ArrayList<DTOReporte> reportes = new ArrayList<>();
+        StringBuilder SQL =
+                new StringBuilder("select\n" +
+                        "    to_char(r.FECHA, 'mm/yyyy') as fecha,\n" +
+                        "    sum(l.CANTIDAD) as cantidad\n" +
+                        "from RENTA r, LINEA l, CARRO c\n" +
+                        "where r.ID = l.RENTAID and c.ID = l.CARROID\n" +
+                        "group by to_char(r.FECHA, 'mm/yyyy')") ;
+        try (
+                Connection conex = DriverManager.getConnection(Constantes.THINCONN, Constantes.USERNAME, Constantes.PASSWORD);
+                PreparedStatement ps = conex.prepareStatement(SQL.toString());) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                reportes.add(buildDTOReporte(rs));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return reportes;
+    }
 }
