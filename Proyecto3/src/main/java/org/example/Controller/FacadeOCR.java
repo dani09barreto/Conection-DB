@@ -6,7 +6,6 @@ import org.example.Integration.RepositorioRenta;
 import org.example.Model.*;
 import org.example.Utils.Exeptions.ErrorPago;
 
-import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -194,8 +193,8 @@ public class FacadeOCR {
         return resumen;
     }
 
-    public DTOReporte consultarAcomulados (){
-        return null;
+    public ArrayList<DTOReporte> consultarAcomulados (){
+        return rentaContro.ConsultarAcumulados();
     }
 
     public ArrayList <Carro> consultarCarros (){
@@ -237,10 +236,10 @@ public class FacadeOCR {
         return (int) (totalRenta - (totalRenta*descuento));
     }
 
-    private Double vueltasRenta(Renta rentaActual, DTOResumen resumen){
+    private double vueltasRenta(Renta rentaActual, DTOResumen resumen){
         Integer totalRenta = valorTotalRenta(rentaActual);
         Integer totalBilletesRenta = billeteContro.totalBilletesPorRenta(rentaActual.getNumero());
-        Double vueltas = Double.valueOf(totalBilletesRenta - totalRenta);
+        Double vueltas = (double) (totalBilletesRenta - totalRenta);
         if (vueltas > 0){
             resumen.setVueltas(vueltas);
         }

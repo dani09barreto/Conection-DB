@@ -108,12 +108,13 @@ public class ControllerRentaCarros implements Initializable {
         for (Billete b : facadeOCR.consultarBilletes()){
             denominaciones.getItems().add(b.getDenominacion());
         }
+        AlertUtils.alertInformation("Informacion", "Antes de agregar una linea oprime el boton Nueva Renta", "");
     }
 
     @FXML
     void agregarBillete(ActionEvent event) {
         DTOResumen resumen;
-        Integer denominacion= denominaciones.getSelectionModel().getSelectedItem();
+        Integer denominacion = denominaciones.getSelectionModel().getSelectedItem();
         Billete billete=new Billete(
                 Integer.parseInt(cantidadBilletes.getText()),
                 denominacion
