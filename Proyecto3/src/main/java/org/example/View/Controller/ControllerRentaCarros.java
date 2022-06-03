@@ -2,13 +2,18 @@ package org.example.View.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.Controller.FacadeOCR;
 import org.example.Model.*;
 import org.example.Utils.AlertUtils;
 import org.example.Utils.Exeptions.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -176,7 +181,20 @@ public class ControllerRentaCarros implements Initializable {
     }
 
     @FXML
-    void generarReporte(ActionEvent event) {
+    void generarReporte(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(ControllerReporte.class.getResource("../Reporte.fxml"));
+        Parent root = loader.load();
+        ControllerReporte ViewControllerReporte = loader.getController();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Reporte");
+        stage.setScene(scene);
+        stage.setMaximized(false);
+        stage.setResizable(false);
+        stage.show();
+        stage.show();
     }
 
     @FXML
